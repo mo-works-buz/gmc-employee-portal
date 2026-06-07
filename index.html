@@ -20,7 +20,6 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); }
 
-  /* HEADER */
   header {
     background: linear-gradient(135deg, var(--primary) 0%, #0d2438 100%);
     color: #fff; padding: 0 24px;
@@ -28,104 +27,83 @@
     height: 64px; box-shadow: 0 2px 8px rgba(0,0,0,.3);
   }
   .logo { display: flex; align-items: center; gap: 12px; }
-  .logo-box {
-    width: 40px; height: 40px; background: var(--accent);
-    border-radius: 8px; display: flex; align-items: center; justify-content: center;
-    font-weight: 900; font-size: 16px; color: var(--primary);
-  }
-  .logo-text { font-size: 16px; font-weight: 700; line-height: 1.2; }
-  .logo-sub { font-size: 11px; opacity: .7; }
-  .header-right { display: flex; align-items: center; gap: 16px; }
-  #syncDot {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 12px; background: rgba(255,255,255,.1);
-    padding: 4px 10px; border-radius: 20px;
-  }
-  #syncDot span { width: 8px; height: 8px; border-radius: 50%; background: var(--amber); }
-  #syncDot.ok span { background: var(--green); }
+  .logo-box { width:40px;height:40px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;color:var(--primary); }
+  .logo-text { font-size:16px;font-weight:700;line-height:1.2; }
+  .logo-sub { font-size:11px;opacity:.7; }
+  #syncDot { display:flex;align-items:center;gap:6px;font-size:12px;background:rgba(255,255,255,.1);padding:4px 10px;border-radius:20px; }
+  #syncDot span { width:8px;height:8px;border-radius:50%;background:var(--amber); }
+  #syncDot.ok span { background:var(--green); }
 
-  /* NAV */
-  nav {
-    background: var(--primary); padding: 0 24px;
-    display: flex; gap: 4px; border-top: 1px solid rgba(255,255,255,.1);
+  nav { background:var(--primary);padding:0 24px;display:flex;gap:4px;border-top:1px solid rgba(255,255,255,.1); }
+  nav button { background:none;border:none;color:rgba(255,255,255,.7);padding:12px 18px;cursor:pointer;font-size:13px;font-weight:500;border-bottom:3px solid transparent;transition:all .2s; }
+  nav button:hover { color:#fff; }
+  nav button.active { color:var(--accent);border-bottom-color:var(--accent); }
+
+  main { padding:24px;max-width:1100px;margin:0 auto; }
+  .tab { display:none; }
+  .tab.active { display:block; }
+
+  .grid { display:grid;gap:16px; }
+  .g2 { grid-template-columns:1fr 1fr; }
+  .g3 { grid-template-columns:1fr 1fr 1fr; }
+  .g4 { grid-template-columns:repeat(4,1fr); }
+  @media(max-width:700px){ .g2,.g3,.g4{ grid-template-columns:1fr; } }
+
+  .card { background:var(--card);border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.07); }
+  .card h3 { font-size:12px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px; }
+  .card .big { font-size:30px;font-weight:700;color:var(--primary); }
+  .card .sub { font-size:12px;color:var(--muted);margin-top:4px; }
+  .card.accent-border { border-left:4px solid var(--accent); }
+  .card.green-border { border-left:4px solid var(--green); }
+
+  .sec-head { display:flex;align-items:center;justify-content:space-between;margin-bottom:16px; }
+  .sec-head h2 { font-size:20px;color:var(--primary); }
+
+  .form-card { background:var(--card);border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.07); }
+  .form-card h3 { font-size:15px;font-weight:600;margin-bottom:16px;color:var(--primary); }
+  .form-row { display:flex;flex-wrap:wrap;gap:12px;margin-bottom:12px; }
+  .form-row label { display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted);flex:1;min-width:120px; }
+  .form-row input,.form-row select,.form-row textarea { border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:14px;color:var(--text);background:#fafbfc;outline:none;transition:border .2s; }
+  .form-row input:focus,.form-row select:focus { border-color:var(--primary); }
+  .form-row .calc { background:#eef3f8;color:var(--primary);font-weight:600; }
+  .form-row .earn { background:#d5f5e3;color:#1e8449;font-weight:700;font-size:15px; }
+
+  .btn { padding:9px 20px;border-radius:8px;border:none;cursor:pointer;font-size:14px;font-weight:600;transition:all .2s; }
+  .btn-primary { background:var(--primary);color:#fff; }
+  .btn-primary:hover { background:#0d2438; }
+  .btn-danger { background:var(--red);color:#fff;font-size:12px;padding:4px 10px; }
+  .btn-sm { font-size:12px;padding:5px 12px; }
+
+  /* Order type toggle */
+  .order-type-toggle { display:flex;gap:0;margin-bottom:16px;border:2px solid var(--primary);border-radius:10px;overflow:hidden;width:fit-content; }
+  .order-type-toggle button { padding:10px 28px;border:none;cursor:pointer;font-size:14px;font-weight:600;background:#fff;color:var(--primary);transition:all .2s; }
+  .order-type-toggle button.active { background:var(--primary);color:#fff; }
+
+  .table-wrap { overflow-x:auto; }
+  table { width:100%;border-collapse:collapse;font-size:13px; }
+  th { background:var(--primary);color:#fff;padding:10px 12px;text-align:left;font-weight:600; }
+  td { padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle; }
+  tr:hover td { background:#f0f4f8; }
+  .badge { display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600; }
+  .badge-green { background:#d5f5e3;color:#1e8449; }
+  .badge-amber { background:#fdebd0;color:#935116; }
+  .badge-blue { background:#d6eaf8;color:#1a5276; }
+  .earn-cell { font-weight:700;color:var(--green); }
+
+  /* Earnings banner */
+  .earn-banner {
+    background:linear-gradient(135deg,#1a3c5e,#0d2438);
+    color:#fff;border-radius:12px;padding:20px;margin-bottom:20px;
   }
-  nav button {
-    background: none; border: none; color: rgba(255,255,255,.7);
-    padding: 12px 18px; cursor: pointer; font-size: 13px; font-weight: 500;
-    border-bottom: 3px solid transparent; transition: all .2s;
-  }
-  nav button:hover { color: #fff; background: rgba(255,255,255,.05); }
-  nav button.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .earn-banner h3 { color:var(--accent);font-size:13px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px; }
+  .earn-row { display:flex;justify-content:space-between;font-size:14px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.1); }
+  .earn-row:last-child { border:none;font-size:20px;font-weight:700;color:var(--accent);padding-top:12px; }
 
-  /* LAYOUT */
-  main { padding: 24px; max-width: 1100px; margin: 0 auto; }
-  .tab { display: none; }
-  .tab.active { display: block; }
-
-  /* CARDS */
-  .grid { display: grid; gap: 16px; }
-  .g2 { grid-template-columns: 1fr 1fr; }
-  .g3 { grid-template-columns: 1fr 1fr 1fr; }
-  .g4 { grid-template-columns: repeat(4, 1fr); }
-  @media(max-width:700px) { .g2,.g3,.g4 { grid-template-columns: 1fr; } }
-
-  .card {
-    background: var(--card); border-radius: 12px;
-    padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,.07);
-  }
-  .card h3 { font-size: 13px; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .5px; }
-  .card .big { font-size: 32px; font-weight: 700; color: var(--primary); }
-  .card .sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
-  .card.accent-border { border-left: 4px solid var(--accent); }
-  .card.green-border { border-left: 4px solid var(--green); }
-
-  /* SECTION HEADER */
-  .sec-head {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 16px;
-  }
-  .sec-head h2 { font-size: 20px; color: var(--primary); }
-
-  /* FORMS */
-  .form-card { background: var(--card); border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,.07); }
-  .form-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 16px; color: var(--primary); }
-  .form-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
-  .form-row label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--muted); flex: 1; min-width: 120px; }
-  .form-row input, .form-row select, .form-row textarea {
-    border: 1px solid var(--border); border-radius: 8px;
-    padding: 8px 10px; font-size: 14px; color: var(--text);
-    background: #fafbfc; outline: none; transition: border .2s;
-  }
-  .form-row input:focus, .form-row select:focus { border-color: var(--primary); }
-  .form-row .calc { background: #eef3f8; color: var(--primary); font-weight: 600; }
-  .btn { padding: 9px 20px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px; font-weight: 600; transition: all .2s; }
-  .btn-primary { background: var(--primary); color: #fff; }
-  .btn-primary:hover { background: #0d2438; }
-  .btn-accent { background: var(--accent); color: var(--primary); }
-  .btn-danger { background: var(--red); color: #fff; font-size: 12px; padding: 4px 10px; }
-  .btn-sm { font-size: 12px; padding: 4px 10px; }
-
-  /* TABLE */
-  .table-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { background: var(--primary); color: #fff; padding: 10px 12px; text-align: left; font-weight: 600; }
-  td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-  tr:hover td { background: #f0f4f8; }
-  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-  .badge-green { background: #d5f5e3; color: #1e8449; }
-  .badge-amber { background: #fdebd0; color: #935116; }
-  .badge-blue { background: #d6eaf8; color: #1a5276; }
-  .earn-cell { font-weight: 700; color: var(--green); }
-
-  /* COMMISSION BREAKDOWN */
-  .comm-box {
-    background: linear-gradient(135deg, #1a3c5e 0%, #0d2438 100%);
-    color: #fff; border-radius: 12px; padding: 20px; margin-bottom: 20px;
-  }
-  .comm-box h3 { color: var(--accent); font-size: 13px; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 12px; }
-  .comm-row { display: flex; justify-content: space-between; font-size: 14px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,.1); }
-  .comm-row:last-child { border: none; font-size: 18px; font-weight: 700; color: var(--accent); }
-  .comm-row span:last-child { font-weight: 600; }
+  /* Price ref table */
+  .price-ref { font-size:12px; }
+  .price-ref th { font-size:11px;padding:6px 10px; }
+  .price-ref td { padding:6px 10px; }
+  .no-cut { background:#fde8e8 !important;color:#922b21;font-size:11px; }
 </style>
 </head>
 <body>
@@ -138,17 +116,16 @@
       <div class="logo-sub">Employee Portal</div>
     </div>
   </div>
-  <div class="header-right">
-    <div id="syncDot"><span></span><span id="syncTxt">Connecting...</span></div>
-  </div>
+  <div id="syncDot"><span></span><span id="syncTxt">Connecting...</span></div>
 </header>
 
 <nav>
-  <button class="active" onclick="showTab('dashboard')">📊 Dashboard</button>
-  <button onclick="showTab('orders')">✂️ Cutting Orders</button>
-  <button onclick="showTab('gas')">⛽ Gas & Travel</button>
-  <button onclick="showTab('hours')">🕐 Work Log</button>
-  <button onclick="showTab('settings')">⚙️ Settings</button>
+  <button class="active" onclick="showTab('dashboard',this)">📊 Dashboard</button>
+  <button onclick="showTab('orders',this)">✂️ Orders</button>
+  <button onclick="showTab('gas',this)">⛽ Gas & Travel</button>
+  <button onclick="showTab('hours',this)">🕐 Work Log</button>
+  <button onclick="showTab('pricelist',this)">💲 Price List</button>
+  <button onclick="showTab('settings',this)">⚙️ Settings</button>
 </nav>
 
 <main>
@@ -160,114 +137,133 @@
     <p style="color:var(--muted);font-size:14px;" id="dashDate"></p>
   </div>
 
-  <!-- Commission Breakdown -->
-  <div class="comm-box" id="commBreakdown">
+  <div class="earn-banner">
     <h3>💰 My Earnings This Month</h3>
-    <div class="comm-row"><span>Sheet Commission (15%)</span><span id="totalComm">$0.00</span></div>
-    <div class="comm-row"><span>Cut Fees ($20/cut)</span><span id="totalCuts">$0.00</span></div>
-    <div class="comm-row"><span>Gas Reimbursement</span><span id="totalGas">$0.00</span></div>
-    <div class="comm-row"><span>TOTAL EARNED</span><span id="totalEarned">$0.00</span></div>
+    <div class="earn-row"><span>Full Sheet Commission (15%)</span><span id="eSheetComm">$0.00</span></div>
+    <div class="earn-row"><span>Cut Material Commission (15%)</span><span id="eCutMatComm">$0.00</span></div>
+    <div class="earn-row"><span>Cut Fees ($20 each)</span><span id="eCutFees">$0.00</span></div>
+    <div class="earn-row"><span>Gas Reimbursement</span><span id="eGas">$0.00</span></div>
+    <div class="earn-row"><span>TOTAL EARNED</span><span id="eTotal">$0.00</span></div>
   </div>
 
   <div class="grid g4" style="margin-bottom:20px;">
-    <div class="card accent-border">
-      <h3>Orders This Month</h3>
-      <div class="big" id="dashOrders">0</div>
-      <div class="sub">Cutting orders</div>
-    </div>
-    <div class="card accent-border">
-      <h3>Sheets Sold</h3>
-      <div class="big" id="dashSheets">0</div>
-      <div class="sub">Total sheets</div>
-    </div>
-    <div class="card accent-border">
-      <h3>Total Cuts</h3>
-      <div class="big" id="dashCutsCount">0</div>
-      <div class="sub">Cut operations</div>
-    </div>
-    <div class="card green-border">
-      <h3>Gas Trips</h3>
-      <div class="big" id="dashGasTrips">0</div>
-      <div class="sub">This month</div>
-    </div>
+    <div class="card accent-border"><h3>Sheet Orders</h3><div class="big" id="dSheetOrds">0</div></div>
+    <div class="card accent-border"><h3>Cut Orders</h3><div class="big" id="dCutOrds">0</div></div>
+    <div class="card accent-border"><h3>Total Cuts</h3><div class="big" id="dCutsCount">0</div></div>
+    <div class="card green-border"><h3>Gas Trips</h3><div class="big" id="dGasTrips">0</div></div>
   </div>
 
-  <!-- Recent Orders -->
   <div class="card">
     <h3 style="font-size:15px;font-weight:700;color:var(--primary);margin-bottom:12px;">Recent Orders</h3>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Date</th><th>Customer</th><th>Material</th><th>Sheets</th><th>Cuts</th><th>Sheet Comm.</th><th>Cut Fee</th><th>Total</th></tr></thead>
-        <tbody id="recentOrdersTbl"><tr><td colspan="8" style="text-align:center;color:var(--muted);">No orders yet</td></tr></tbody>
+        <thead><tr><th>Date</th><th>Customer</th><th>Type</th><th>Material</th><th>Details</th><th>My Earnings</th></tr></thead>
+        <tbody id="recentTbl"><tr><td colspan="6" style="text-align:center;color:var(--muted);">No orders yet</td></tr></tbody>
       </table>
     </div>
   </div>
 </div>
 
-<!-- CUTTING ORDERS -->
+<!-- ORDERS -->
 <div id="tab-orders" class="tab">
-  <div class="sec-head">
-    <h2>✂️ Cutting Orders</h2>
-  </div>
+  <div class="sec-head"><h2>✂️ Orders</h2></div>
 
   <div class="form-card">
-    <h3>New Cutting Order</h3>
-    <div class="form-row">
-      <label>Date
-        <input type="date" id="ordDate">
-      </label>
-      <label>Customer Name
-        <input type="text" id="ordCustomer" placeholder="Customer / Walk-in">
-      </label>
-      <label>Material Type
-        <select id="ordMaterial" onchange="calcOrder()">
-          <option value="">-- Select --</option>
-          <option value="Clear 1/8&quot; (3mm)|115">Clear 1/8" (3mm) — $115</option>
-          <option value="Clear 3/16&quot; (5mm)|140">Clear 3/16" (5mm) — $140</option>
-          <option value="Clear 1/4&quot; (6mm)|165">Clear 1/4" (6mm) — $165</option>
-          <option value="Clear 3/8&quot; (10mm)|210">Clear 3/8" (10mm) — $210</option>
-          <option value="Clear 1/2&quot; (12mm)|255">Clear 1/2" (12mm) — $255</option>
-          <option value="White 1/8&quot;|125">White 1/8" — $125</option>
-          <option value="White 1/4&quot;|168">White 1/4" — $168</option>
-          <option value="Colored 1/8&quot;|132">Colored 1/8" — $132</option>
-          <option value="Colored 1/4&quot;|178">Colored 1/4" — $178</option>
-          <option value="Mirror 1/8&quot;|145">Mirror 1/8" — $145</option>
-          <option value="Mirror 1/4&quot;|192">Mirror 1/4" — $192</option>
-          <option value="Frosted 1/8&quot;|148">Frosted 1/8" — $148</option>
-          <option value="Frosted 1/4&quot;|195">Frosted 1/4" — $195</option>
-          <option value="Custom|0">Custom Price</option>
-        </select>
-      </label>
+    <h3>New Order</h3>
+
+    <!-- Toggle -->
+    <div class="order-type-toggle">
+      <button class="active" id="btnFullSheet" onclick="setOrderType('sheet')">📦 Full Sheet</button>
+      <button id="btnCut" onclick="setOrderType('cut')">✂️ Cut Piece</button>
     </div>
+
+    <!-- Common fields -->
     <div class="form-row">
-      <label>Sheet Price ($)
-        <input type="number" id="ordSheetPrice" placeholder="Auto from material" oninput="calcOrder()" min="0">
-      </label>
-      <label>Number of Sheets
-        <input type="number" id="ordSheets" value="1" min="1" oninput="calcOrder()">
-      </label>
-      <label>Number of Cuts
-        <input type="number" id="ordCuts" value="0" min="0" oninput="calcOrder()">
-      </label>
+      <label>Date <input type="date" id="ordDate"></label>
+      <label>Customer <input type="text" id="ordCustomer" placeholder="Name / Walk-in"></label>
     </div>
-    <div class="form-row">
-      <label>Sheet Commission (15%)
-        <input type="text" id="ordComm" class="calc" readonly>
-      </label>
-      <label>Cut Fee ($20 × cuts)
-        <input type="text" id="ordCutFee" class="calc" readonly>
-      </label>
-      <label>MY TOTAL EARNINGS
-        <input type="text" id="ordTotal" class="calc" readonly style="font-size:16px;color:var(--green);font-weight:700;">
-      </label>
+
+    <!-- FULL SHEET fields -->
+    <div id="sheetFields">
+      <div class="form-row">
+        <label>Material
+          <select id="ordMaterial" onchange="calcSheetOrder()">
+            <option value="">-- Select material --</option>
+            <optgroup label="Transparent">
+              <option value="Transparent 3mm (1/8&quot;)|115|transparent_3mm">Transparent 3mm (1/8") — $115</option>
+              <option value="Transparent 4.5mm (3/16&quot;)|165|transparent_45mm">Transparent 4.5mm (3/16") — $165</option>
+              <option value="Transparent 5.4mm (7/32&quot;)|185|transparent_54mm">Transparent 5.4mm (7/32") — $185</option>
+              <option value="Transparent 4.5mm 4x10 (3/16&quot;)|165|transparent_45mm">Transparent 4.5mm 4×10 — $165</option>
+              <option value="Transparent 5.4mm 4x10 (7/32&quot;)|185|transparent_54mm">Transparent 5.4mm 4×10 — $185</option>
+            </optgroup>
+            <optgroup label="White / Black">
+              <option value="White Opaque 3mm (1/8&quot;)|185|colored">White Opaque 3mm — $185</option>
+              <option value="White Opaque 4.5mm (3/16&quot;)|215|colored">White Opaque 4.5mm — $215</option>
+              <option value="Black Opaque 3mm (1/8&quot;)|185|colored">Black Opaque 3mm — $185</option>
+              <option value="Black Opaque 4.5mm (3/16&quot;)|215|colored">Black Opaque 4.5mm — $215</option>
+            </optgroup>
+            <optgroup label="Frosted / Smoked">
+              <option value="Frosted 3mm (1/8&quot;)|165|colored">Frosted 3mm — $165</option>
+              <option value="Frosted 4.5mm (3/16&quot;)|185|colored">Frosted 4.5mm — $185</option>
+              <option value="Smoked 3mm (1/8&quot;)|185|colored">Smoked 3mm — $185</option>
+              <option value="Smoked 4.5mm (3/16&quot;)|215|colored">Smoked 4.5mm — $215</option>
+            </optgroup>
+            <optgroup label="Mirror (Full Sheet Only — No Cuts)">
+              <option value="Gold Mirror 4.5mm|295|mirror">Gold Mirror 4.5mm — $295 ⛔ No Cuts</option>
+              <option value="Silver Mirror 4.5mm|295|mirror">Silver Mirror 4.5mm — $295 ⛔ No Cuts</option>
+            </optgroup>
+          </select>
+        </label>
+        <label>Sheet Price ($) <input type="number" id="sheetPrice" class="calc" readonly></label>
+        <label>Qty (sheets) <input type="number" id="sheetQty" value="1" min="1" oninput="calcSheetOrder()"></label>
+      </div>
+      <div class="form-row">
+        <label>Total Sheet Value <input type="text" id="sheetTotal" class="calc" readonly></label>
+        <label>MY COMMISSION (15%) <input type="text" id="sheetComm" class="earn" readonly></label>
+      </div>
     </div>
+
+    <!-- CUT fields -->
+    <div id="cutFields" style="display:none;">
+      <div class="form-row">
+        <label>Material Type
+          <select id="cutMaterial" onchange="calcCutOrder()">
+            <option value="">-- Select type --</option>
+            <optgroup label="Colored (×0.055)">
+              <option value="White Opaque|colored">White Opaque</option>
+              <option value="Black Opaque|colored">Black Opaque</option>
+              <option value="Frosted|colored">Frosted</option>
+              <option value="Smoked|colored">Smoked</option>
+            </optgroup>
+            <optgroup label="Transparent 4.5mm or 5.4mm (×0.045)">
+              <option value="Transparent 4.5mm|transparent_45mm">Transparent 4.5mm</option>
+              <option value="Transparent 5.4mm|transparent_54mm">Transparent 5.4mm</option>
+            </optgroup>
+            <optgroup label="Transparent 3mm (×0.035)">
+              <option value="Transparent 3mm|transparent_3mm">Transparent 3mm</option>
+            </optgroup>
+          </select>
+        </label>
+        <label>Width (inches) <input type="number" id="cutDim1" placeholder='e.g. 24"' min="0.1" step="0.25" oninput="calcCutOrder()"></label>
+        <label>Height (inches) <input type="number" id="cutDim2" placeholder='e.g. 36"' min="0.1" step="0.25" oninput="calcCutOrder()"></label>
+        <label>Number of Cuts <input type="number" id="cutQty" value="1" min="1" oninput="calcCutOrder()"></label>
+      </div>
+      <div class="form-row">
+        <label>Rate <input type="text" id="cutRate" class="calc" readonly placeholder="auto"></label>
+        <label>Material Price (D×D×rate) <input type="text" id="cutMatPrice" class="calc" readonly></label>
+        <label>Cut Fee ($20 × cuts) <input type="text" id="cutFeeTotal" class="calc" readonly></label>
+        <label>Customer Price (total) <input type="text" id="cutCustomerPrice" class="calc" readonly></label>
+      </div>
+      <div class="form-row">
+        <label>My Mat. Commission (15%) <input type="text" id="cutMyMatComm" class="earn" readonly></label>
+        <label>My Cut Fee ($20 each) <input type="text" id="cutMyFee" class="earn" readonly></label>
+        <label>MY TOTAL EARNINGS <input type="text" id="cutMyTotal" class="earn" readonly style="font-size:15px;"></label>
+      </div>
+    </div>
+
     <div class="form-row">
-      <label style="flex:2;">Notes
-        <input type="text" id="ordNotes" placeholder="Customer request, dimensions, special cuts...">
-      </label>
-      <label>Attachment (photo/PDF)
-        <input type="file" id="ordFile" accept="image/*,.pdf" style="padding:6px;">
-      </label>
+      <label style="flex:2;">Notes <input type="text" id="ordNotes" placeholder="Dimensions, special request..."></label>
+      <label>Attachment <input type="file" id="ordFile" accept="image/*,.pdf" style="padding:6px;"></label>
     </div>
     <div style="display:flex;gap:8px;margin-top:8px;">
       <button class="btn btn-primary" onclick="addOrder()">+ Add Order</button>
@@ -275,78 +271,50 @@
     </div>
   </div>
 
-  <!-- Filter -->
-  <div class="form-card" style="padding:12px 20px;">
-    <div class="form-row" style="margin:0;align-items:flex-end;">
-      <label>Filter by Month
-        <input type="month" id="ordFilterMonth" onchange="renderOrders()">
-      </label>
-      <div style="display:flex;gap:8px;align-items:flex-end;padding-bottom:2px;">
-        <button class="btn btn-sm btn-primary" onclick="exportOrdersCSV()">⬇ Export CSV</button>
-      </div>
-    </div>
+  <!-- Filter & Summary -->
+  <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap;">
+    <input type="month" id="ordFilterMonth" onchange="renderOrders()" style="border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:13px;">
+    <button class="btn btn-sm btn-primary" onclick="exportOrdersCSV()">⬇ Export CSV</button>
   </div>
 
-  <!-- Summary -->
-  <div class="grid g3" style="margin-bottom:16px;" id="ordSummaryCards">
-    <div class="card accent-border">
-      <h3>Sheet Commission</h3>
-      <div class="big" id="ordSumComm">$0</div>
-    </div>
-    <div class="card accent-border">
-      <h3>Cut Fees</h3>
-      <div class="big" id="ordSumCuts">$0</div>
-    </div>
-    <div class="card green-border">
-      <h3>Total Earnings</h3>
-      <div class="big" id="ordSumTotal">$0</div>
-    </div>
+  <div class="grid g3" style="margin-bottom:16px;">
+    <div class="card accent-border"><h3>Sheet Commission</h3><div class="big" id="sumSheetComm">$0</div></div>
+    <div class="card accent-border"><h3>Cut Earnings</h3><div class="big" id="sumCutEarn">$0</div></div>
+    <div class="card green-border"><h3>Total Earnings</h3><div class="big" id="sumTotal">$0</div></div>
   </div>
 
   <div class="card">
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Date</th><th>Customer</th><th>Material</th><th>Sheets</th><th>Sheet $</th><th>Cuts</th><th>Sheet Comm.</th><th>Cut Fee</th><th>My Total</th><th>Notes</th><th>📎</th><th>Del</th></tr></thead>
-        <tbody id="ordersTbl"><tr><td colspan="12" style="text-align:center;color:var(--muted);">No orders yet</td></tr></tbody>
+        <thead><tr><th>Date</th><th>Customer</th><th>Type</th><th>Material</th><th>Details</th><th>Customer $</th><th>Mat.Comm</th><th>Cut Fee</th><th>My Total</th><th>Notes</th><th>📎</th><th>Del</th></tr></thead>
+        <tbody id="ordTbl"><tr><td colspan="12" style="text-align:center;color:var(--muted);">No orders</td></tr></tbody>
       </table>
     </div>
   </div>
 </div>
 
-<!-- GAS & TRAVEL -->
+<!-- GAS -->
 <div id="tab-gas" class="tab">
   <div class="sec-head"><h2>⛽ Gas & Travel</h2></div>
-
   <div class="form-card">
     <h3>Log Gas / Travel</h3>
     <div class="form-row">
       <label>Date <input type="date" id="gasDate"></label>
-      <label>Description <input type="text" id="gasDesc" placeholder="Delivery, pickup, client visit..."></label>
+      <label>Description <input type="text" id="gasDesc" placeholder="Delivery, pickup..."></label>
       <label>Amount ($) <input type="number" id="gasAmt" placeholder="0.00" min="0" step="0.01"></label>
+      <label>KM <input type="number" id="gasKm" placeholder="Optional" min="0"></label>
     </div>
     <div class="form-row">
-      <label>KM / Miles <input type="number" id="gasKm" placeholder="Optional" min="0"></label>
+      <label>Notes <input type="text" id="gasNotes"></label>
       <label>Attachment <input type="file" id="gasFile" accept="image/*,.pdf" style="padding:6px;"></label>
-      <label>Notes <input type="text" id="gasNotes" placeholder="Optional"></label>
     </div>
     <button class="btn btn-primary" onclick="addGas()">+ Add Entry</button>
   </div>
-
   <div class="grid g3" style="margin-bottom:16px;">
-    <div class="card accent-border">
-      <h3>This Month Gas</h3>
-      <div class="big" id="gasMthTotal">$0</div>
-    </div>
-    <div class="card accent-border">
-      <h3>Total KM</h3>
-      <div class="big" id="gasMthKm">0</div>
-    </div>
-    <div class="card accent-border">
-      <h3>Entries</h3>
-      <div class="big" id="gasMthCount">0</div>
-    </div>
+    <div class="card accent-border"><h3>This Month Gas</h3><div class="big" id="gasMthTotal">$0</div></div>
+    <div class="card accent-border"><h3>Total KM</h3><div class="big" id="gasMthKm">0</div></div>
+    <div class="card accent-border"><h3>Entries</h3><div class="big" id="gasMthCount">0</div></div>
   </div>
-
   <div class="card">
     <div class="sec-head" style="margin-bottom:12px;">
       <span style="font-size:15px;font-weight:700;color:var(--primary);">Gas Entries</span>
@@ -355,7 +323,7 @@
     <div class="table-wrap">
       <table>
         <thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>KM</th><th>Notes</th><th>📎</th><th>Del</th></tr></thead>
-        <tbody id="gasTbl"><tr><td colspan="7" style="text-align:center;color:var(--muted);">No entries yet</td></tr></tbody>
+        <tbody id="gasTbl"></tbody>
       </table>
     </div>
   </div>
@@ -364,19 +332,14 @@
 <!-- WORK LOG -->
 <div id="tab-hours" class="tab">
   <div class="sec-head"><h2>🕐 Work Log</h2></div>
-  <p style="color:var(--muted);font-size:13px;margin-bottom:16px;">Personal time log — for reference only. Earnings are calculated from orders.</p>
-
+  <p style="color:var(--muted);font-size:13px;margin-bottom:16px;">Personal time log — reference only. Earnings come from orders.</p>
   <div class="form-card">
     <h3>Log Work Time</h3>
     <div class="form-row">
       <label>Date <input type="date" id="hrDate"></label>
       <label>Type
         <select id="hrType">
-          <option>Work</option>
-          <option>Training</option>
-          <option>Delivery</option>
-          <option>Setup</option>
-          <option>Other</option>
+          <option>Work</option><option>Training</option><option>Delivery</option><option>Setup</option><option>Other</option>
         </select>
       </label>
       <label>Hours <input type="number" id="hrHours" placeholder="0" min="0" step="0.5"></label>
@@ -387,22 +350,11 @@
     </div>
     <button class="btn btn-primary" onclick="addHour()">+ Log Time</button>
   </div>
-
   <div class="grid g3" style="margin-bottom:16px;">
-    <div class="card accent-border">
-      <h3>Hours This Month</h3>
-      <div class="big" id="hrMthHours">0h</div>
-    </div>
-    <div class="card accent-border">
-      <h3>Days Worked</h3>
-      <div class="big" id="hrMthDays">0</div>
-    </div>
-    <div class="card accent-border">
-      <h3>Avg Hours/Day</h3>
-      <div class="big" id="hrMthAvg">0h</div>
-    </div>
+    <div class="card accent-border"><h3>Hours This Month</h3><div class="big" id="hrMthHours">0h</div></div>
+    <div class="card accent-border"><h3>Days Worked</h3><div class="big" id="hrMthDays">0</div></div>
+    <div class="card accent-border"><h3>Avg Hours/Day</h3><div class="big" id="hrMthAvg">0h</div></div>
   </div>
-
   <div class="card">
     <div class="sec-head" style="margin-bottom:12px;">
       <span style="font-size:15px;font-weight:700;color:var(--primary);">Work Log</span>
@@ -411,8 +363,76 @@
     <div class="table-wrap">
       <table>
         <thead><tr><th>Date</th><th>Type</th><th>Hours</th><th>Notes</th><th>📎</th><th>Del</th></tr></thead>
-        <tbody id="hrTbl"><tr><td colspan="6" style="text-align:center;color:var(--muted);">No entries yet</td></tr></tbody>
+        <tbody id="hrTbl"></tbody>
       </table>
+    </div>
+  </div>
+</div>
+
+<!-- PRICE LIST -->
+<div id="tab-pricelist" class="tab">
+  <div class="sec-head"><h2>💲 Price Reference</h2></div>
+
+  <div class="grid g2" style="margin-bottom:20px;">
+    <div class="card">
+      <h3 style="font-size:14px;font-weight:700;color:var(--primary);margin-bottom:12px;">📦 Full Sheet Prices</h3>
+      <div class="table-wrap">
+        <table class="price-ref">
+          <thead><tr><th>Material</th><th>Size</th><th>Thickness</th><th>Price</th></tr></thead>
+          <tbody>
+            <tr><td>Transparent</td><td>4×8</td><td>3mm (1/8")</td><td><strong>$115</strong></td></tr>
+            <tr><td>Transparent</td><td>4×8</td><td>4.5mm (3/16")</td><td><strong>$165</strong></td></tr>
+            <tr><td>Transparent</td><td>4×8</td><td>5.4mm (7/32")</td><td><strong>$185</strong></td></tr>
+            <tr><td>Transparent</td><td>4×10</td><td>4.5mm (3/16")</td><td><strong>$165</strong></td></tr>
+            <tr><td>Transparent</td><td>4×10</td><td>5.4mm (7/32")</td><td><strong>$185</strong></td></tr>
+            <tr><td>White Opaque</td><td>4×8</td><td>3mm</td><td><strong>$185</strong></td></tr>
+            <tr><td>White Opaque</td><td>4×8</td><td>4.5mm</td><td><strong>$215</strong></td></tr>
+            <tr><td>Black Opaque</td><td>4×8</td><td>3mm</td><td><strong>$185</strong></td></tr>
+            <tr><td>Black Opaque</td><td>4×8</td><td>4.5mm</td><td><strong>$215</strong></td></tr>
+            <tr><td>Frosted</td><td>4×8</td><td>3mm</td><td><strong>$165</strong></td></tr>
+            <tr><td>Frosted</td><td>4×8</td><td>4.5mm</td><td><strong>$185</strong></td></tr>
+            <tr><td>Smoked</td><td>4×8</td><td>3mm</td><td><strong>$185</strong></td></tr>
+            <tr><td>Smoked</td><td>4×8</td><td>4.5mm</td><td><strong>$215</strong></td></tr>
+            <tr class="no-cut"><td>Gold Mirror ⛔</td><td>4×8</td><td>4.5mm</td><td><strong>$295</strong></td></tr>
+            <tr class="no-cut"><td>Silver Mirror ⛔</td><td>4×8</td><td>4.5mm</td><td><strong>$295</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:11px;color:var(--red);margin-top:8px;">⛔ Gold & Silver Mirror: full sheet sales ONLY — no cuts accepted</p>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:14px;font-weight:700;color:var(--primary);margin-bottom:12px;">✂️ Cut Pricing Formula</h3>
+      <div style="background:#f8f9fa;border-radius:8px;padding:16px;margin-bottom:12px;">
+        <p style="font-size:13px;font-weight:600;color:var(--primary);margin-bottom:8px;">Price = Width × Height × Rate + $20</p>
+        <table class="price-ref" style="width:100%;">
+          <thead><tr><th>Material Type</th><th>Rate</th></tr></thead>
+          <tbody>
+            <tr><td>Colored (White, Black, Frosted, Smoked)</td><td><strong>× 0.055</strong></td></tr>
+            <tr><td>Transparent 4.5mm or 5.4mm</td><td><strong>× 0.045</strong></td></tr>
+            <tr><td>Transparent 3mm</td><td><strong>× 0.035</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="background:#d5f5e3;border-radius:8px;padding:12px;">
+        <p style="font-size:13px;font-weight:600;color:#1e8449;margin-bottom:4px;">💰 My Commission on Cuts:</p>
+        <p style="font-size:13px;color:#1e8449;">15% of (Width × Height × Rate) + $20 cut fee</p>
+      </div>
+      <div style="margin-top:16px;">
+        <h4 style="font-size:13px;font-weight:700;color:var(--primary);margin-bottom:8px;">Quick Calculator</h4>
+        <div class="form-row" style="margin:0 0 8px;">
+          <label>Type
+            <select id="qcType" onchange="quickCalc()">
+              <option value="colored">Colored (×0.055)</option>
+              <option value="transparent_45mm">Transparent 4.5/5.4mm (×0.045)</option>
+              <option value="transparent_3mm">Transparent 3mm (×0.035)</option>
+            </select>
+          </label>
+          <label>Width (in) <input type="number" id="qcW" placeholder="24" oninput="quickCalc()"></label>
+          <label>Height (in) <input type="number" id="qcH" placeholder="36" oninput="quickCalc()"></label>
+        </div>
+        <div id="qcResult" style="background:#eef3f8;border-radius:8px;padding:12px;font-size:14px;color:var(--primary);"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -424,21 +444,9 @@
     <h3>Employee Info</h3>
     <div class="form-row">
       <label>Your Name <input type="text" id="setName" placeholder="Mohammed"></label>
-      <label>Position <input type="text" id="setPosition" placeholder="Cutter / Operator"></label>
+      <label>Position <input type="text" id="setPosition" placeholder="Operator / Cutter"></label>
     </div>
     <button class="btn btn-primary" onclick="saveSettings()">Save</button>
-  </div>
-  <div class="form-card">
-    <h3>Commission Rates</h3>
-    <div class="form-row">
-      <label>Sheet Commission (%)
-        <input type="number" id="setCommRate" value="15" min="1" max="100">
-      </label>
-      <label>Cut Fee per Cut ($)
-        <input type="number" id="setCutFee" value="20" min="0">
-      </label>
-    </div>
-    <button class="btn btn-primary" onclick="saveSettings()">Save Rates</button>
   </div>
   <div class="form-card" style="border-left:4px solid var(--red);">
     <h3 style="color:var(--red);">Danger Zone</h3>
@@ -450,16 +458,25 @@
 </main>
 
 <script>
-// ========== CONFIG ==========
+// ===== CONFIG =====
 const FB = 'https://gmc-plexiglass-default-rtdb.firebaseio.com';
-const SHARED = ['orders', 'gas', 'hours'];
+const COMM_RATE = 0.15;
+const CUT_FEE = 20;
 
-// ========== STATE ==========
+const RATES = {
+  colored: 0.055,
+  transparent_45mm: 0.045,
+  transparent_54mm: 0.045,
+  transparent_3mm: 0.035
+};
+
+// ===== STATE =====
 let DATA = { orders: [], gas: [], hours: [] };
-let SETTINGS = { name: 'Employee', position: 'Operator', commRate: 15, cutFee: 20 };
-let FILES = {}; // fileId -> base64
+let SETTINGS = { name: 'Employee', position: 'Operator' };
+let FILES = {};
+let currentOrderType = 'sheet';
 
-// ========== INIT ==========
+// ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
   loadLocal();
   loadSettings();
@@ -477,13 +494,11 @@ function setDefaultDates() {
   ['ordFilterMonth','gasFilterMonth','hrFilterMonth'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ym; });
 }
 
-// ========== LOCAL STORAGE ==========
+// ===== STORAGE =====
 function loadLocal() {
   try {
-    const d = localStorage.getItem('gmc_emp_data');
-    if(d) DATA = JSON.parse(d);
-    const f = localStorage.getItem('gmc_emp_files');
-    if(f) FILES = JSON.parse(f);
+    const d = localStorage.getItem('gmc_emp_data'); if(d) DATA = JSON.parse(d);
+    const f = localStorage.getItem('gmc_emp_files'); if(f) FILES = JSON.parse(f);
   } catch(e) {}
 }
 
@@ -499,40 +514,28 @@ function loadSettings() {
     if(s) SETTINGS = {...SETTINGS, ...JSON.parse(s)};
     document.getElementById('setName').value = SETTINGS.name;
     document.getElementById('setPosition').value = SETTINGS.position;
-    document.getElementById('setCommRate').value = SETTINGS.commRate;
-    document.getElementById('setCutFee').value = SETTINGS.cutFee;
   } catch(e) {}
 }
 
 function saveSettings() {
   SETTINGS.name = document.getElementById('setName').value || 'Employee';
   SETTINGS.position = document.getElementById('setPosition').value || 'Operator';
-  SETTINGS.commRate = parseFloat(document.getElementById('setCommRate').value) || 15;
-  SETTINGS.cutFee = parseFloat(document.getElementById('setCutFee').value) || 20;
   localStorage.setItem('gmc_emp_settings', JSON.stringify(SETTINGS));
-  calcOrder();
-  alert('Settings saved!');
+  alert('Saved!');
 }
 
 function clearAll() {
-  if(confirm('Delete ALL data? This cannot be undone.')) {
-    localStorage.removeItem('gmc_emp_data');
-    localStorage.removeItem('gmc_emp_files');
-    DATA = { orders: [], gas: [], hours: [] };
-    FILES = {};
-    renderAll();
-  }
+  if(!confirm('Delete ALL data?')) return;
+  DATA = { orders: [], gas: [], hours: [] }; FILES = {};
+  localStorage.removeItem('gmc_emp_data'); localStorage.removeItem('gmc_emp_files');
+  renderAll();
 }
 
-// ========== FIREBASE ==========
+// ===== FIREBASE =====
 async function pushToFirebase() {
-  setSyncStatus(false);
   try {
-    for(const key of SHARED) {
-      await fetch(`${FB}/${key}.json`, {
-        method: 'PUT',
-        body: JSON.stringify(DATA[key] || [])
-      });
+    for(const key of ['orders','gas','hours']) {
+      await fetch(`${FB}/${key}.json`, { method:'PUT', body: JSON.stringify(DATA[key]||[]) });
     }
     setSyncStatus(true);
   } catch(e) { setSyncStatus(false); }
@@ -540,91 +543,130 @@ async function pushToFirebase() {
 
 async function syncFromFirebase() {
   try {
-    for(const key of SHARED) {
+    for(const key of ['orders','gas','hours']) {
       const r = await fetch(`${FB}/${key}.json`);
-      if(r.ok) {
-        const d = await r.json();
-        DATA[key] = Array.isArray(d) ? d : [];
-      }
+      if(r.ok) { const d = await r.json(); DATA[key] = Array.isArray(d) ? d : []; }
     }
     localStorage.setItem('gmc_emp_data', JSON.stringify(DATA));
-    setSyncStatus(true);
-    renderAll();
+    setSyncStatus(true); renderAll();
   } catch(e) { setSyncStatus(false); }
 }
 
 function setSyncStatus(ok) {
-  const el = document.getElementById('syncDot');
-  const tx = document.getElementById('syncTxt');
-  if(ok) { el.className = 'ok'; tx.textContent = 'Synced'; }
-  else { el.className = ''; tx.textContent = 'Offline'; }
+  const el = document.getElementById('syncDot'), tx = document.getElementById('syncTxt');
+  el.className = ok ? 'ok' : ''; tx.textContent = ok ? 'Synced' : 'Offline';
 }
 
-// ========== TABS ==========
-function showTab(name) {
+// ===== TABS =====
+function showTab(name, btn) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');
-  event.target.classList.add('active');
+  if(btn) btn.classList.add('active');
   renderAll();
 }
 
-// ========== CALC ORDER ==========
-function calcOrder() {
-  const mat = document.getElementById('ordMaterial').value;
-  let sheetPrice = parseFloat(document.getElementById('ordSheetPrice').value) || 0;
-
-  if(mat && mat.includes('|')) {
-    const basePrice = parseFloat(mat.split('|')[1]) || 0;
-    if(basePrice > 0) {
-      sheetPrice = basePrice;
-      document.getElementById('ordSheetPrice').value = basePrice;
-    }
-  }
-
-  const sheets = parseInt(document.getElementById('ordSheets').value) || 1;
-  const cuts = parseInt(document.getElementById('ordCuts').value) || 0;
-  const rate = SETTINGS.commRate / 100;
-  const cutFee = SETTINGS.cutFee;
-
-  const comm = sheetPrice * sheets * rate;
-  const cutTotal = cuts * cutFee;
-  const total = comm + cutTotal;
-
-  document.getElementById('ordComm').value = '$' + comm.toFixed(2);
-  document.getElementById('ordCutFee').value = '$' + cutTotal.toFixed(2);
-  document.getElementById('ordTotal').value = '$' + total.toFixed(2);
+// ===== ORDER TYPE TOGGLE =====
+function setOrderType(type) {
+  currentOrderType = type;
+  document.getElementById('sheetFields').style.display = type === 'sheet' ? 'block' : 'none';
+  document.getElementById('cutFields').style.display = type === 'cut' ? 'block' : 'none';
+  document.getElementById('btnFullSheet').classList.toggle('active', type === 'sheet');
+  document.getElementById('btnCut').classList.toggle('active', type === 'cut');
 }
 
-// ========== ORDERS ==========
+// ===== CALC SHEET ORDER =====
+function calcSheetOrder() {
+  const val = document.getElementById('ordMaterial').value;
+  if(!val || !val.includes('|')) { document.getElementById('sheetPrice').value = ''; return; }
+  const parts = val.split('|');
+  const price = parseFloat(parts[1]) || 0;
+  const qty = parseInt(document.getElementById('sheetQty').value) || 1;
+  const total = price * qty;
+  const comm = total * COMM_RATE;
+  document.getElementById('sheetPrice').value = '$' + price.toFixed(2);
+  document.getElementById('sheetTotal').value = '$' + total.toFixed(2);
+  document.getElementById('sheetComm').value = '$' + comm.toFixed(2);
+}
+
+// ===== CALC CUT ORDER =====
+function calcCutOrder() {
+  const val = document.getElementById('cutMaterial').value;
+  if(!val || !val.includes('|')) return;
+  const matType = val.split('|')[1];
+  const rate = RATES[matType] || 0.045;
+  const d1 = parseFloat(document.getElementById('cutDim1').value) || 0;
+  const d2 = parseFloat(document.getElementById('cutDim2').value) || 0;
+  const qty = parseInt(document.getElementById('cutQty').value) || 1;
+
+  const matPrice = d1 * d2 * rate;
+  const cutFeeTotal = CUT_FEE * qty;
+  const customerTotal = (matPrice + CUT_FEE) * qty;
+  const myMatComm = matPrice * qty * COMM_RATE;
+  const myTotal = myMatComm + cutFeeTotal;
+
+  document.getElementById('cutRate').value = '×' + rate.toFixed(3);
+  document.getElementById('cutMatPrice').value = '$' + (matPrice * qty).toFixed(2);
+  document.getElementById('cutFeeTotal').value = '$' + cutFeeTotal.toFixed(2);
+  document.getElementById('cutCustomerPrice').value = '$' + customerTotal.toFixed(2);
+  document.getElementById('cutMyMatComm').value = '$' + myMatComm.toFixed(2);
+  document.getElementById('cutMyFee').value = '$' + cutFeeTotal.toFixed(2);
+  document.getElementById('cutMyTotal').value = '$' + myTotal.toFixed(2);
+}
+
+// ===== ADD ORDER =====
 function addOrder() {
-  const mat = document.getElementById('ordMaterial').value;
-  const matName = mat.includes('|') ? mat.split('|')[0] : mat;
-  const sheetPrice = parseFloat(document.getElementById('ordSheetPrice').value) || 0;
-  const sheets = parseInt(document.getElementById('ordSheets').value) || 1;
-  const cuts = parseInt(document.getElementById('ordCuts').value) || 0;
   const date = document.getElementById('ordDate').value;
   const customer = document.getElementById('ordCustomer').value || 'Walk-in';
   const notes = document.getElementById('ordNotes').value;
+  if(!date) { alert('Please enter a date.'); return; }
 
-  if(!date || !matName) { alert('Please fill in Date and Material.'); return; }
+  let entry;
 
-  const rate = SETTINGS.commRate / 100;
-  const comm = sheetPrice * sheets * rate;
-  const cutTotal = cuts * SETTINGS.cutFee;
-  const total = comm + cutTotal;
+  if(currentOrderType === 'sheet') {
+    const matVal = document.getElementById('ordMaterial').value;
+    if(!matVal) { alert('Please select a material.'); return; }
+    const parts = matVal.split('|');
+    const matName = parts[0];
+    const price = parseFloat(parts[1]) || 0;
+    const qty = parseInt(document.getElementById('sheetQty').value) || 1;
+    const total = price * qty;
+    const comm = total * COMM_RATE;
+    entry = {
+      id: Date.now(), date, customer, type: 'sheet',
+      material: matName, sheetPrice: price, qty,
+      customerPrice: total,
+      myMatComm: parseFloat(comm.toFixed(2)),
+      myCutFee: 0,
+      myTotal: parseFloat(comm.toFixed(2)),
+      notes, fileId: null
+    };
+  } else {
+    const matVal = document.getElementById('cutMaterial').value;
+    if(!matVal) { alert('Please select a material type.'); return; }
+    const matType = matVal.split('|')[1];
+    const matName = matVal.split('|')[0];
+    const rate = RATES[matType] || 0.045;
+    const d1 = parseFloat(document.getElementById('cutDim1').value) || 0;
+    const d2 = parseFloat(document.getElementById('cutDim2').value) || 0;
+    const qty = parseInt(document.getElementById('cutQty').value) || 1;
+    if(!d1 || !d2) { alert('Please enter dimensions.'); return; }
+    const matPrice = d1 * d2 * rate;
+    const cutFeeTotal = CUT_FEE * qty;
+    const customerTotal = (matPrice + CUT_FEE) * qty;
+    const myMatComm = matPrice * qty * COMM_RATE;
+    const myTotal = myMatComm + cutFeeTotal;
+    entry = {
+      id: Date.now(), date, customer, type: 'cut',
+      material: matName, dim1: d1, dim2: d2, rate, qty,
+      customerPrice: parseFloat(customerTotal.toFixed(2)),
+      myMatComm: parseFloat(myMatComm.toFixed(2)),
+      myCutFee: parseFloat(cutFeeTotal.toFixed(2)),
+      myTotal: parseFloat(myTotal.toFixed(2)),
+      notes, fileId: null
+    };
+  }
 
-  const entry = {
-    id: Date.now(),
-    date, customer, material: matName, sheetPrice, sheets, cuts,
-    comm: parseFloat(comm.toFixed(2)),
-    cutFee: parseFloat(cutTotal.toFixed(2)),
-    total: parseFloat(total.toFixed(2)),
-    notes,
-    fileId: null
-  };
-
-  // Handle file
   const file = document.getElementById('ordFile').files[0];
   if(file) {
     const reader = new FileReader();
@@ -644,12 +686,16 @@ function addOrder() {
 }
 
 function clearOrderForm() {
-  ['ordCustomer','ordSheetPrice','ordNotes'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('ordMaterial').value = '';
-  document.getElementById('ordSheets').value = 1;
-  document.getElementById('ordCuts').value = 0;
+  document.getElementById('ordCustomer').value = '';
+  document.getElementById('ordNotes').value = '';
   document.getElementById('ordFile').value = '';
-  ['ordComm','ordCutFee','ordTotal'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('ordMaterial').value = '';
+  document.getElementById('sheetQty').value = 1;
+  document.getElementById('cutMaterial').value = '';
+  ['cutDim1','cutDim2'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('cutQty').value = 1;
+  ['sheetPrice','sheetTotal','sheetComm','cutRate','cutMatPrice','cutFeeTotal',
+   'cutCustomerPrice','cutMyMatComm','cutMyFee','cutMyTotal'].forEach(id => document.getElementById(id).value = '');
 }
 
 function deleteOrder(id) {
@@ -658,234 +704,213 @@ function deleteOrder(id) {
   sv(); renderOrders(); renderDashboard();
 }
 
+// ===== RENDER ORDERS =====
 function renderOrders() {
   const month = document.getElementById('ordFilterMonth')?.value;
   const rows = month ? DATA.orders.filter(o => o.date.startsWith(month)) : DATA.orders;
-  const tbody = document.getElementById('ordersTbl');
+  const tbody = document.getElementById('ordTbl');
 
-  let sumComm = 0, sumCuts = 0, sumTotal = 0;
-  rows.forEach(o => { sumComm += o.comm||0; sumCuts += o.cutFee||0; sumTotal += o.total||0; });
-
-  document.getElementById('ordSumComm').textContent = '$' + sumComm.toFixed(2);
-  document.getElementById('ordSumCuts').textContent = '$' + sumCuts.toFixed(2);
-  document.getElementById('ordSumTotal').textContent = '$' + sumTotal.toFixed(2);
+  let sheetComm = 0, cutEarn = 0;
+  rows.forEach(o => {
+    sheetComm += o.type === 'sheet' ? (o.myTotal||0) : 0;
+    cutEarn += o.type === 'cut' ? (o.myTotal||0) : 0;
+  });
+  document.getElementById('sumSheetComm').textContent = '$' + sheetComm.toFixed(2);
+  document.getElementById('sumCutEarn').textContent = '$' + cutEarn.toFixed(2);
+  document.getElementById('sumTotal').textContent = '$' + (sheetComm + cutEarn).toFixed(2);
 
   if(!rows.length) {
-    tbody.innerHTML = '<tr><td colspan="12" style="text-align:center;color:var(--muted);">No orders for this period</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="12" style="text-align:center;color:var(--muted);">No orders</td></tr>';
     return;
   }
-  tbody.innerHTML = rows.map(o => `
-    <tr>
-      <td>${o.date}</td>
-      <td>${o.customer}</td>
-      <td>${o.material}</td>
-      <td>${o.sheets||1}</td>
-      <td>$${(o.sheetPrice||0).toFixed(2)}</td>
-      <td>${o.cuts||0}</td>
-      <td>$${(o.comm||0).toFixed(2)}</td>
-      <td>$${(o.cutFee||0).toFixed(2)}</td>
-      <td class="earn-cell">$${(o.total||0).toFixed(2)}</td>
-      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;">${o.notes||''}</td>
-      <td>${o.fileId && FILES[o.fileId] ? `<a href="${FILES[o.fileId].data}" target="_blank" title="${FILES[o.fileId].name}">📎</a>` : ''}</td>
-      <td><button class="btn btn-danger" onclick="deleteOrder(${o.id})">✕</button></td>
-    </tr>
-  `).join('');
+  tbody.innerHTML = rows.map(o => {
+    const details = o.type === 'sheet'
+      ? `${o.qty||1} sheet(s) @ $${(o.sheetPrice||0).toFixed(2)}`
+      : `${o.dim1}"×${o.dim2}" ×${o.qty||1}`;
+    return `
+      <tr>
+        <td>${o.date}</td>
+        <td>${o.customer}</td>
+        <td><span class="badge ${o.type==='sheet'?'badge-blue':'badge-amber'}">${o.type==='sheet'?'Sheet':'Cut'}</span></td>
+        <td>${o.material}</td>
+        <td style="font-size:12px;">${details}</td>
+        <td>$${(o.customerPrice||0).toFixed(2)}</td>
+        <td>$${(o.myMatComm||0).toFixed(2)}</td>
+        <td>$${(o.myCutFee||0).toFixed(2)}</td>
+        <td class="earn-cell">$${(o.myTotal||0).toFixed(2)}</td>
+        <td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;">${o.notes||''}</td>
+        <td>${o.fileId&&FILES[o.fileId]?`<a href="${FILES[o.fileId].data}" target="_blank">📎</a>`:''}</td>
+        <td><button class="btn btn-danger" onclick="deleteOrder(${o.id})">✕</button></td>
+      </tr>`;
+  }).join('');
 }
 
 function exportOrdersCSV() {
-  const rows = DATA.orders;
-  if(!rows.length) { alert('No orders to export.'); return; }
-  const header = ['Date','Customer','Material','Sheets','Sheet Price','Cuts','Sheet Commission','Cut Fee','My Total','Notes'];
-  const csv = [header.join(','), ...rows.map(o =>
-    [o.date, `"${o.customer}"`, `"${o.material}"`, o.sheets||1, o.sheetPrice||0, o.cuts||0,
-     o.comm||0, o.cutFee||0, o.total||0, `"${o.notes||''}"`].join(',')
-  )].join('\n');
-  downloadFile('GMC_Orders.csv', 'text/csv', csv);
+  if(!DATA.orders.length) { alert('No orders.'); return; }
+  const h = ['Date','Customer','Type','Material','Details','Customer Price','Mat.Commission','Cut Fee','My Total','Notes'];
+  const csv = [h.join(','), ...DATA.orders.map(o => {
+    const details = o.type==='sheet' ? `${o.qty||1} sheet(s)` : `${o.dim1}"x${o.dim2}" x${o.qty||1}`;
+    return [o.date,`"${o.customer}"`,o.type,`"${o.material}"`,details,
+      o.customerPrice||0,o.myMatComm||0,o.myCutFee||0,o.myTotal||0,`"${o.notes||''}"`].join(',');
+  })].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'GMC_Orders.csv'; a.click();
 }
 
-// ========== GAS ==========
+// ===== GAS =====
 function addGas() {
   const date = document.getElementById('gasDate').value;
-  const desc = document.getElementById('gasDesc').value;
-  const amt = parseFloat(document.getElementById('gasAmt').value) || 0;
-  const km = parseFloat(document.getElementById('gasKm').value) || 0;
-  const notes = document.getElementById('gasNotes').value;
-
-  if(!date) { alert('Please enter a date.'); return; }
-
-  const entry = { id: Date.now(), date, desc, amt, km, notes, fileId: null };
-
+  if(!date) { alert('Date required.'); return; }
+  const entry = {
+    id: Date.now(), date,
+    desc: document.getElementById('gasDesc').value,
+    amt: parseFloat(document.getElementById('gasAmt').value)||0,
+    km: parseFloat(document.getElementById('gasKm').value)||0,
+    notes: document.getElementById('gasNotes').value,
+    fileId: null
+  };
   const file = document.getElementById('gasFile').files[0];
   if(file) {
     const reader = new FileReader();
     reader.onload = e => {
-      const fid = 'f' + Date.now();
-      FILES[fid] = { name: file.name, data: e.target.result };
-      entry.fileId = fid;
-      DATA.gas.unshift(entry);
-      sv(); renderGas(); renderDashboard();
+      const fid = 'f'+Date.now(); FILES[fid]={name:file.name,data:e.target.result};
+      entry.fileId=fid; DATA.gas.unshift(entry); sv(); renderGas(); renderDashboard();
     };
     reader.readAsDataURL(file);
   } else {
-    DATA.gas.unshift(entry);
-    sv(); renderGas(); renderDashboard();
+    DATA.gas.unshift(entry); sv(); renderGas(); renderDashboard();
   }
-  ['gasDesc','gasAmt','gasKm','gasNotes'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('gasFile').value = '';
+  ['gasDesc','gasAmt','gasKm','gasNotes'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('gasFile').value='';
 }
 
 function deleteGas(id) {
-  if(!confirm('Delete this entry?')) return;
-  DATA.gas = DATA.gas.filter(g => g.id !== id);
+  if(!confirm('Delete?')) return;
+  DATA.gas = DATA.gas.filter(g => g.id!==id);
   sv(); renderGas(); renderDashboard();
 }
 
 function renderGas() {
   const month = document.getElementById('gasFilterMonth')?.value;
   const rows = month ? DATA.gas.filter(g => g.date.startsWith(month)) : DATA.gas;
+  const total = rows.reduce((s,g)=>s+(g.amt||0),0);
+  const km = rows.reduce((s,g)=>s+(g.km||0),0);
+  document.getElementById('gasMthTotal').textContent='$'+total.toFixed(2);
+  document.getElementById('gasMthKm').textContent=km.toFixed(0);
+  document.getElementById('gasMthCount').textContent=rows.length;
   const tbody = document.getElementById('gasTbl');
-
-  const total = rows.reduce((s, g) => s + (g.amt||0), 0);
-  const km = rows.reduce((s, g) => s + (g.km||0), 0);
-  document.getElementById('gasMthTotal').textContent = '$' + total.toFixed(2);
-  document.getElementById('gasMthKm').textContent = km.toFixed(0);
-  document.getElementById('gasMthCount').textContent = rows.length;
-
-  if(!rows.length) {
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);">No entries</td></tr>';
-    return;
-  }
-  tbody.innerHTML = rows.map(g => `
+  if(!rows.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--muted);">No entries</td></tr>';return;}
+  tbody.innerHTML=rows.map(g=>`
     <tr>
-      <td>${g.date}</td>
-      <td>${g.desc||''}</td>
-      <td>$${(g.amt||0).toFixed(2)}</td>
-      <td>${g.km||0} km</td>
-      <td>${g.notes||''}</td>
-      <td>${g.fileId && FILES[g.fileId] ? `<a href="${FILES[g.fileId].data}" target="_blank">📎</a>` : ''}</td>
+      <td>${g.date}</td><td>${g.desc||''}</td><td>$${(g.amt||0).toFixed(2)}</td>
+      <td>${g.km||0}km</td><td>${g.notes||''}</td>
+      <td>${g.fileId&&FILES[g.fileId]?`<a href="${FILES[g.fileId].data}" target="_blank">📎</a>`:''}</td>
       <td><button class="btn btn-danger" onclick="deleteGas(${g.id})">✕</button></td>
-    </tr>
-  `).join('');
+    </tr>`).join('');
 }
 
-// ========== HOURS ==========
+// ===== HOURS =====
 function addHour() {
-  const date = document.getElementById('hrDate').value;
-  const type = document.getElementById('hrType').value;
-  const hours = parseFloat(document.getElementById('hrHours').value) || 0;
-  const notes = document.getElementById('hrNotes').value;
-  if(!date || !hours) { alert('Please fill date and hours.'); return; }
-
-  const entry = { id: Date.now(), date, type, hours, notes, fileId: null };
-
-  const file = document.getElementById('hrFile').files[0];
-  if(file) {
-    const reader = new FileReader();
-    reader.onload = e => {
-      const fid = 'f' + Date.now();
-      FILES[fid] = { name: file.name, data: e.target.result };
-      entry.fileId = fid;
-      DATA.hours.unshift(entry);
-      sv(); renderHours();
-    };
+  const date=document.getElementById('hrDate').value;
+  const hours=parseFloat(document.getElementById('hrHours').value)||0;
+  if(!date||!hours){alert('Fill date and hours.');return;}
+  const entry={id:Date.now(),date,type:document.getElementById('hrType').value,hours,notes:document.getElementById('hrNotes').value,fileId:null};
+  const file=document.getElementById('hrFile').files[0];
+  if(file){
+    const reader=new FileReader();
+    reader.onload=e=>{const fid='f'+Date.now();FILES[fid]={name:file.name,data:e.target.result};entry.fileId=fid;DATA.hours.unshift(entry);sv();renderHours();};
     reader.readAsDataURL(file);
-  } else {
-    DATA.hours.unshift(entry);
-    sv(); renderHours();
-  }
-  ['hrHours','hrNotes'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('hrFile').value = '';
+  } else { DATA.hours.unshift(entry);sv();renderHours(); }
+  ['hrHours','hrNotes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('hrFile').value='';
 }
 
-function deleteHour(id) {
-  if(!confirm('Delete this entry?')) return;
-  DATA.hours = DATA.hours.filter(h => h.id !== id);
-  sv(); renderHours();
+function deleteHour(id){
+  if(!confirm('Delete?'))return;
+  DATA.hours=DATA.hours.filter(h=>h.id!==id);sv();renderHours();
 }
 
 function renderHours() {
-  const month = document.getElementById('hrFilterMonth')?.value;
-  const rows = month ? DATA.hours.filter(h => h.date.startsWith(month)) : DATA.hours;
-  const tbody = document.getElementById('hrTbl');
-
-  const totalHrs = rows.reduce((s, h) => s + (h.hours||0), 0);
-  const days = new Set(rows.map(h => h.date)).size;
-  document.getElementById('hrMthHours').textContent = totalHrs.toFixed(1) + 'h';
-  document.getElementById('hrMthDays').textContent = days;
-  document.getElementById('hrMthAvg').textContent = days ? (totalHrs/days).toFixed(1) + 'h' : '0h';
-
-  if(!rows.length) {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);">No entries</td></tr>';
-    return;
-  }
-  tbody.innerHTML = rows.map(h => `
+  const month=document.getElementById('hrFilterMonth')?.value;
+  const rows=month?DATA.hours.filter(h=>h.date.startsWith(month)):DATA.hours;
+  const totalHrs=rows.reduce((s,h)=>s+(h.hours||0),0);
+  const days=new Set(rows.map(h=>h.date)).size;
+  document.getElementById('hrMthHours').textContent=totalHrs.toFixed(1)+'h';
+  document.getElementById('hrMthDays').textContent=days;
+  document.getElementById('hrMthAvg').textContent=days?(totalHrs/days).toFixed(1)+'h':'0h';
+  const tbody=document.getElementById('hrTbl');
+  if(!rows.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);">No entries</td></tr>';return;}
+  tbody.innerHTML=rows.map(h=>`
     <tr>
       <td>${h.date}</td>
       <td><span class="badge badge-blue">${h.type}</span></td>
-      <td>${h.hours}h</td>
-      <td>${h.notes||''}</td>
-      <td>${h.fileId && FILES[h.fileId] ? `<a href="${FILES[h.fileId].data}" target="_blank">📎</a>` : ''}</td>
+      <td>${h.hours}h</td><td>${h.notes||''}</td>
+      <td>${h.fileId&&FILES[h.fileId]?`<a href="${FILES[h.fileId].data}" target="_blank">📎</a>`:''}</td>
       <td><button class="btn btn-danger" onclick="deleteHour(${h.id})">✕</button></td>
-    </tr>
-  `).join('');
+    </tr>`).join('');
 }
 
-// ========== DASHBOARD ==========
+// ===== DASHBOARD =====
 function renderDashboard() {
-  const ym = new Date().toISOString().slice(0, 7);
-  const monthOrders = DATA.orders.filter(o => o.date.startsWith(ym));
-  const monthGas = DATA.gas.filter(g => g.date.startsWith(ym));
+  const ym=new Date().toISOString().slice(0,7);
+  const mOrd=DATA.orders.filter(o=>o.date.startsWith(ym));
+  const mGas=DATA.gas.filter(g=>g.date.startsWith(ym));
 
-  const totalComm = monthOrders.reduce((s, o) => s + (o.comm||0), 0);
-  const totalCuts = monthOrders.reduce((s, o) => s + (o.cutFee||0), 0);
-  const totalGasAmt = monthGas.reduce((s, g) => s + (g.amt||0), 0);
-  const totalSheets = monthOrders.reduce((s, o) => s + (o.sheets||1), 0);
-  const totalCutsCount = monthOrders.reduce((s, o) => s + (o.cuts||0), 0);
+  const sheetComm=mOrd.filter(o=>o.type==='sheet').reduce((s,o)=>s+(o.myTotal||0),0);
+  const cutMatComm=mOrd.filter(o=>o.type==='cut').reduce((s,o)=>s+(o.myMatComm||0),0);
+  const cutFees=mOrd.filter(o=>o.type==='cut').reduce((s,o)=>s+(o.myCutFee||0),0);
+  const gasAmt=mGas.reduce((s,g)=>s+(g.amt||0),0);
 
-  document.getElementById('totalComm').textContent = '$' + totalComm.toFixed(2);
-  document.getElementById('totalCuts').textContent = '$' + totalCuts.toFixed(2);
-  document.getElementById('totalGas').textContent = '$' + totalGasAmt.toFixed(2);
-  document.getElementById('totalEarned').textContent = '$' + (totalComm + totalCuts + totalGasAmt).toFixed(2);
+  document.getElementById('eSheetComm').textContent='$'+sheetComm.toFixed(2);
+  document.getElementById('eCutMatComm').textContent='$'+cutMatComm.toFixed(2);
+  document.getElementById('eCutFees').textContent='$'+cutFees.toFixed(2);
+  document.getElementById('eGas').textContent='$'+gasAmt.toFixed(2);
+  document.getElementById('eTotal').textContent='$'+(sheetComm+cutMatComm+cutFees+gasAmt).toFixed(2);
 
-  document.getElementById('dashOrders').textContent = monthOrders.length;
-  document.getElementById('dashSheets').textContent = totalSheets;
-  document.getElementById('dashCutsCount').textContent = totalCutsCount;
-  document.getElementById('dashGasTrips').textContent = monthGas.length;
+  document.getElementById('dSheetOrds').textContent=mOrd.filter(o=>o.type==='sheet').length;
+  document.getElementById('dCutOrds').textContent=mOrd.filter(o=>o.type==='cut').length;
+  document.getElementById('dCutsCount').textContent=mOrd.filter(o=>o.type==='cut').reduce((s,o)=>s+(o.qty||1),0);
+  document.getElementById('dGasTrips').textContent=mGas.length;
 
-  // Recent orders
-  const recent = DATA.orders.slice(0, 5);
-  const rtbl = document.getElementById('recentOrdersTbl');
-  if(!recent.length) {
-    rtbl.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--muted);">No orders yet</td></tr>';
-    return;
-  }
-  rtbl.innerHTML = recent.map(o => `
-    <tr>
-      <td>${o.date}</td>
-      <td>${o.customer}</td>
-      <td>${o.material}</td>
-      <td>${o.sheets||1}</td>
-      <td>${o.cuts||0}</td>
-      <td>$${(o.comm||0).toFixed(2)}</td>
-      <td>$${(o.cutFee||0).toFixed(2)}</td>
-      <td class="earn-cell">$${(o.total||0).toFixed(2)}</td>
-    </tr>
-  `).join('');
+  const tbody=document.getElementById('recentTbl');
+  const recent=DATA.orders.slice(0,5);
+  if(!recent.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);">No orders yet</td></tr>';return;}
+  tbody.innerHTML=recent.map(o=>{
+    const details=o.type==='sheet'?`${o.qty||1} sheet(s)`:(`${o.dim1}"×${o.dim2}"`);
+    return `<tr>
+      <td>${o.date}</td><td>${o.customer}</td>
+      <td><span class="badge ${o.type==='sheet'?'badge-blue':'badge-amber'}">${o.type==='sheet'?'Sheet':'Cut'}</span></td>
+      <td>${o.material}</td><td>${details}</td>
+      <td class="earn-cell">$${(o.myTotal||0).toFixed(2)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ===== QUICK CALC =====
+function quickCalc() {
+  const type=document.getElementById('qcType').value;
+  const w=parseFloat(document.getElementById('qcW').value)||0;
+  const h=parseFloat(document.getElementById('qcH').value)||0;
+  if(!w||!h){document.getElementById('qcResult').innerHTML='';return;}
+  const rate=RATES[type]||0.045;
+  const matPrice=w*h*rate;
+  const customerTotal=matPrice+CUT_FEE;
+  const myComm=matPrice*COMM_RATE;
+  const myTotal=myComm+CUT_FEE;
+  document.getElementById('qcResult').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+      <span>Material price:</span><strong>$${matPrice.toFixed(2)}</strong>
+      <span>+ Cut fee:</span><strong>$${CUT_FEE}.00</strong>
+      <span style="border-top:1px solid #ddd;padding-top:4px;">Customer pays:</span><strong style="border-top:1px solid #ddd;padding-top:4px;color:var(--primary);">$${customerTotal.toFixed(2)}</strong>
+      <span style="color:var(--green);">My commission (15%):</span><strong style="color:var(--green);">$${myComm.toFixed(2)}</strong>
+      <span style="color:var(--green);">My cut fee:</span><strong style="color:var(--green);">$${CUT_FEE}.00</strong>
+      <span style="color:var(--green);font-weight:700;">MY TOTAL:</span><strong style="color:var(--green);font-size:16px;">$${myTotal.toFixed(2)}</strong>
+    </div>`;
 }
 
 function renderAll() {
-  renderDashboard();
-  renderOrders();
-  renderGas();
-  renderHours();
-}
-
-// ========== UTILITIES ==========
-function downloadFile(filename, mime, content) {
-  const a = document.createElement('a');
-  a.href = 'data:' + mime + ';charset=utf-8,' + encodeURIComponent(content);
-  a.download = filename;
-  a.click();
+  renderDashboard(); renderOrders(); renderGas(); renderHours();
 }
 </script>
 </body>
