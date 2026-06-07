@@ -1,267 +1,892 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GMC Plexiglass — Employee Portal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GMC Plexiglass – Employee Portal</title>
 <style>
-:root{--announce:#0D1B2A;--navy:#1A3A5C;--navy-h:#122B47;--gold:#C8960C;--gold-l:#E5A90E;--white:#FFFFFF;--bg:#F5F6F8;--card:#FFFFFF;--text:#1A1D2E;--muted:#6B7280;--border:#E5E7EB;--success:#16A34A;--danger:#DC2626;--warning:#D97706;--radius:10px;--shadow:0 1px 8px rgba(0,0,0,.08)}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
-.announce{background:var(--announce);color:#fff;text-align:center;padding:9px 16px;font-size:.78rem}
-.announce a{color:var(--gold-l);text-decoration:none;font-weight:700}
-.site-header{background:#fff;border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:62px;position:sticky;top:0;z-index:200;box-shadow:var(--shadow)}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-.brand-logo{width:38px;height:38px;border-radius:7px;object-fit:cover;border:1.5px solid var(--border)}
-.brand-logo-fb{width:38px;height:38px;border-radius:7px;background:var(--navy);color:var(--gold);font-weight:900;font-size:.7rem;display:none;align-items:center;justify-content:center}
-.brand-name{font-size:1.05rem;font-weight:800;color:var(--navy)}.brand-name span{color:var(--gold)}
-.header-right{display:flex;align-items:center;gap:12px}
-.portal-badge{background:var(--navy);color:#fff;font-size:.67rem;font-weight:700;padding:3px 9px;border-radius:20px;text-transform:uppercase}
-.sync-indicator{font-size:.72rem;color:var(--muted);display:flex;align-items:center;gap:4px}
-.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--success)}
-.sync-dot.syncing{animation:pulse 1s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.user-chip{background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:4px 12px 4px 6px;display:flex;align-items:center;gap:7px;font-size:.78rem;font-weight:600}
-.user-avatar{width:24px;height:24px;border-radius:50%;background:var(--navy);color:var(--gold);font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center}
-.tab-nav{background:#fff;border-bottom:2px solid var(--border);display:flex;overflow-x:auto;padding:0 20px}
-.tab-nav::-webkit-scrollbar{height:0}
-.tab-btn{padding:13px 18px;border:none;background:none;cursor:pointer;font-size:.82rem;font-weight:600;color:var(--muted);white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;font-family:inherit}
-.tab-btn:hover{color:var(--navy)}.tab-btn.active{color:var(--navy);border-bottom-color:var(--gold)}
-main{padding:20px;max-width:1000px;margin:0 auto}
-.tab-content{display:none}.tab-content.active{display:block}
-.section-title{font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
-.card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);margin-bottom:14px}
-.card-body{padding:18px}
-.card-hdr{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--border)}
-.card-title{font-size:.9rem;font-weight:700;color:var(--navy)}
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:12px;margin-bottom:16px}
-.kpi{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);padding:16px;text-align:center;position:relative;overflow:hidden}
-.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--kc,var(--navy))}
-.kpi-val{font-size:1.5rem;font-weight:800;color:var(--kc,var(--navy));margin-bottom:2px}
-.kpi-label{font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;line-height:1.3}
-.kpi.gold{--kc:var(--gold)}.kpi.green{--kc:var(--success)}.kpi.amber{--kc:var(--warning)}
-.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:10px}
-.field{display:flex;flex-direction:column;gap:4px}
-.field label{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.3px}
-.field input,.field select{padding:8px 11px;border:1.5px solid var(--border);border-radius:7px;font-size:.875rem;font-family:inherit;background:#fff;transition:border-color .15s;color:var(--text)}
-.field input:focus,.field select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(26,58,92,.1)}
-.field input[readonly]{background:#F9FAFB;color:var(--muted)}
-.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border:none;border-radius:7px;font-size:.82rem;font-weight:700;font-family:inherit;cursor:pointer;transition:all .15s}
-.btn-navy{background:var(--navy);color:#fff}.btn-navy:hover{background:var(--navy-h)}
-.btn-gold{background:var(--gold);color:#fff}.btn-ghost{background:#F3F4F6;color:var(--text)}
-.btn-danger{background:var(--danger);color:#fff}
-.btn-sm{padding:6px 12px;font-size:.78rem}.btn-xs{padding:3px 8px;font-size:.7rem;border-radius:5px}
-.tbl{width:100%;border-collapse:collapse;font-size:.83rem}
-.tbl th{background:#F9FAFB;padding:9px 12px;text-align:left;font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;border-bottom:1.5px solid var(--border)}
-.tbl td{padding:10px 12px;border-bottom:1px solid #F3F4F6;vertical-align:middle}
-.tbl tr:last-child td{border:none}.tbl tr:hover td{background:#FAFAFA}
-.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:.7rem;font-weight:700}
-.b-pending{background:#FEF3C7;color:#92400E}.b-done{background:#D1FAE5;color:#065F46}
-.b-delivered{background:#DBEAFE;color:#1E40AF}.b-cancelled{background:#FEE2E2;color:#991B1B}
-.item-row{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;padding:11px;background:#F9FAFB;border-radius:8px;border:1px solid var(--border);margin-bottom:8px}
-.item-row .field{flex:1;min-width:90px}
-.empty{text-align:center;padding:40px 20px;color:var(--muted)}
-.empty .icon{font-size:2rem;opacity:.35;margin-bottom:8px}
-.info-box{background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:10px 14px;font-size:.78rem;color:#1D4ED8;margin-bottom:12px}
-.preview-calc{font-size:.88rem;color:var(--success);font-weight:700}
-.status-sel{border:none;font-weight:700;font-size:.7rem;border-radius:20px;padding:3px 9px;font-family:inherit;cursor:pointer}
-.divider{height:1px;background:var(--border);margin:14px 0}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:640px){.two-col{grid-template-columns:1fr}}
+  :root {
+    --primary: #1a3c5e;
+    --accent: #c8a84b;
+    --bg: #f4f6f9;
+    --card: #ffffff;
+    --text: #2c3e50;
+    --muted: #7f8c8d;
+    --border: #dde3ea;
+    --green: #27ae60;
+    --red: #e74c3c;
+    --amber: #f39c12;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--primary) 0%, #0d2438 100%);
+    color: #fff; padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px; box-shadow: 0 2px 8px rgba(0,0,0,.3);
+  }
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo-box {
+    width: 40px; height: 40px; background: var(--accent);
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 16px; color: var(--primary);
+  }
+  .logo-text { font-size: 16px; font-weight: 700; line-height: 1.2; }
+  .logo-sub { font-size: 11px; opacity: .7; }
+  .header-right { display: flex; align-items: center; gap: 16px; }
+  #syncDot {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; background: rgba(255,255,255,.1);
+    padding: 4px 10px; border-radius: 20px;
+  }
+  #syncDot span { width: 8px; height: 8px; border-radius: 50%; background: var(--amber); }
+  #syncDot.ok span { background: var(--green); }
+
+  /* NAV */
+  nav {
+    background: var(--primary); padding: 0 24px;
+    display: flex; gap: 4px; border-top: 1px solid rgba(255,255,255,.1);
+  }
+  nav button {
+    background: none; border: none; color: rgba(255,255,255,.7);
+    padding: 12px 18px; cursor: pointer; font-size: 13px; font-weight: 500;
+    border-bottom: 3px solid transparent; transition: all .2s;
+  }
+  nav button:hover { color: #fff; background: rgba(255,255,255,.05); }
+  nav button.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* LAYOUT */
+  main { padding: 24px; max-width: 1100px; margin: 0 auto; }
+  .tab { display: none; }
+  .tab.active { display: block; }
+
+  /* CARDS */
+  .grid { display: grid; gap: 16px; }
+  .g2 { grid-template-columns: 1fr 1fr; }
+  .g3 { grid-template-columns: 1fr 1fr 1fr; }
+  .g4 { grid-template-columns: repeat(4, 1fr); }
+  @media(max-width:700px) { .g2,.g3,.g4 { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--card); border-radius: 12px;
+    padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,.07);
+  }
+  .card h3 { font-size: 13px; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .5px; }
+  .card .big { font-size: 32px; font-weight: 700; color: var(--primary); }
+  .card .sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .card.accent-border { border-left: 4px solid var(--accent); }
+  .card.green-border { border-left: 4px solid var(--green); }
+
+  /* SECTION HEADER */
+  .sec-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .sec-head h2 { font-size: 20px; color: var(--primary); }
+
+  /* FORMS */
+  .form-card { background: var(--card); border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,.07); }
+  .form-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 16px; color: var(--primary); }
+  .form-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+  .form-row label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--muted); flex: 1; min-width: 120px; }
+  .form-row input, .form-row select, .form-row textarea {
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 10px; font-size: 14px; color: var(--text);
+    background: #fafbfc; outline: none; transition: border .2s;
+  }
+  .form-row input:focus, .form-row select:focus { border-color: var(--primary); }
+  .form-row .calc { background: #eef3f8; color: var(--primary); font-weight: 600; }
+  .btn { padding: 9px 20px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px; font-weight: 600; transition: all .2s; }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: #0d2438; }
+  .btn-accent { background: var(--accent); color: var(--primary); }
+  .btn-danger { background: var(--red); color: #fff; font-size: 12px; padding: 4px 10px; }
+  .btn-sm { font-size: 12px; padding: 4px 10px; }
+
+  /* TABLE */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: var(--primary); color: #fff; padding: 10px 12px; text-align: left; font-weight: 600; }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr:hover td { background: #f0f4f8; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .badge-green { background: #d5f5e3; color: #1e8449; }
+  .badge-amber { background: #fdebd0; color: #935116; }
+  .badge-blue { background: #d6eaf8; color: #1a5276; }
+  .earn-cell { font-weight: 700; color: var(--green); }
+
+  /* COMMISSION BREAKDOWN */
+  .comm-box {
+    background: linear-gradient(135deg, #1a3c5e 0%, #0d2438 100%);
+    color: #fff; border-radius: 12px; padding: 20px; margin-bottom: 20px;
+  }
+  .comm-box h3 { color: var(--accent); font-size: 13px; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 12px; }
+  .comm-row { display: flex; justify-content: space-between; font-size: 14px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,.1); }
+  .comm-row:last-child { border: none; font-size: 18px; font-weight: 700; color: var(--accent); }
+  .comm-row span:last-child { font-weight: 600; }
 </style>
 </head>
 <body>
-<div class="announce">NOW YOU CAN GET AN INSTANT QUOTE FOR A CUT-TO-MEASURE PLEXIGLASS — <a href="https://gmcplexiglass.com" target="_blank">Shop Online</a></div>
-<header class="site-header">
-  <a class="brand" href="#">
-    <img class="brand-logo" src="https://gmcplexiglass.com/cdn/shop/files/BEST_GMC_PLEXIGLASS_square_d2a354d7-5c51-4d49-852a-0a759e610b35.jpg" alt="GMC" onerror="this.style.display='none';document.querySelector('.brand-logo-fb').style.display='flex'">
-    <div class="brand-logo-fb">GMC</div>
-    <span class="brand-name">GMC <span>Plexiglass</span></span>
-  </a>
+
+<header>
+  <div class="logo">
+    <div class="logo-box">GMC</div>
+    <div>
+      <div class="logo-text">GMC Plexiglass</div>
+      <div class="logo-sub">Employee Portal</div>
+    </div>
+  </div>
   <div class="header-right">
-    <div class="sync-indicator"><div class="sync-dot" id="sync-dot"></div><span id="sync-status">Connecting...</span></div>
-    <span class="portal-badge">Employee Portal</span>
-    <div class="user-chip"><div class="user-avatar" id="u-initial">?</div><span id="u-name">My Account</span></div>
+    <div id="syncDot"><span></span><span id="syncTxt">Connecting...</span></div>
   </div>
 </header>
-<nav class="tab-nav">
-  <button class="tab-btn active" onclick="showTab('dash')">Dashboard</button>
-  <button class="tab-btn" onclick="showTab('hours')">Work Hours</button>
-  <button class="tab-btn" onclick="showTab('gas')">Gas & Travel</button>
-  <button class="tab-btn" onclick="showTab('orders')">Cutting Orders</button>
-  <button class="tab-btn" onclick="showTab('settings')">Settings</button>
+
+<nav>
+  <button class="active" onclick="showTab('dashboard')">📊 Dashboard</button>
+  <button onclick="showTab('orders')">✂️ Cutting Orders</button>
+  <button onclick="showTab('gas')">⛽ Gas & Travel</button>
+  <button onclick="showTab('hours')">🕐 Work Log</button>
+  <button onclick="showTab('settings')">⚙️ Settings</button>
 </nav>
+
 <main>
-<div id="tab-dash" class="tab-content active">
-  <div class="kpi-grid">
-    <div class="kpi"><div class="kpi-val" id="d-hours">0h</div><div class="kpi-label">Hours This Month</div></div>
-    <div class="kpi green"><div class="kpi-val" id="d-earn">$0</div><div class="kpi-label">My Earnings</div></div>
-    <div class="kpi amber"><div class="kpi-val" id="d-gas">$0</div><div class="kpi-label">Gas Expenses</div></div>
-    <div class="kpi gold"><div class="kpi-val" id="d-net">$0</div><div class="kpi-label">Net Take-Home</div></div>
-    <div class="kpi"><div class="kpi-val" id="d-orders">0</div><div class="kpi-label">Orders This Month</div></div>
+
+<!-- DASHBOARD -->
+<div id="tab-dashboard" class="tab active">
+  <div style="margin-bottom:20px;">
+    <h2 style="color:var(--primary);font-size:22px;">Welcome back 👋</h2>
+    <p style="color:var(--muted);font-size:14px;" id="dashDate"></p>
   </div>
-  <div class="two-col">
-    <div class="card"><div class="card-hdr"><span class="card-title">Recent Orders</span><button class="btn btn-navy btn-sm" onclick="showTab('orders')">+ New</button></div><div class="card-body" style="padding:0"><div id="d-orders-list"></div></div></div>
-    <div class="card"><div class="card-hdr"><span class="card-title">Recent Work Hours</span><button class="btn btn-navy btn-sm" onclick="showTab('hours')">+ Log</button></div><div class="card-body" style="padding:0"><div id="d-hours-list"></div></div></div>
+
+  <!-- Commission Breakdown -->
+  <div class="comm-box" id="commBreakdown">
+    <h3>💰 My Earnings This Month</h3>
+    <div class="comm-row"><span>Sheet Commission (15%)</span><span id="totalComm">$0.00</span></div>
+    <div class="comm-row"><span>Cut Fees ($20/cut)</span><span id="totalCuts">$0.00</span></div>
+    <div class="comm-row"><span>Gas Reimbursement</span><span id="totalGas">$0.00</span></div>
+    <div class="comm-row"><span>TOTAL EARNED</span><span id="totalEarned">$0.00</span></div>
   </div>
-</div>
-<div id="tab-hours" class="tab-content">
-  <div class="section-title">Log Work Hours</div>
-  <div class="card"><div class="card-body">
-    <div class="form-grid">
-      <div class="field"><label>Date</label><input type="date" id="h-date"></div>
-      <div class="field"><label>Start Time</label><input type="time" id="h-start"></div>
-      <div class="field"><label>End Time</label><input type="time" id="h-end"></div>
-      <div class="field"><label>Hourly Rate ($)</label><input type="number" id="h-rate" step="0.5" placeholder="From Settings"></div>
+
+  <div class="grid g4" style="margin-bottom:20px;">
+    <div class="card accent-border">
+      <h3>Orders This Month</h3>
+      <div class="big" id="dashOrders">0</div>
+      <div class="sub">Cutting orders</div>
     </div>
-    <div class="form-grid"><div class="field" style="grid-column:1/-1"><label>Notes</label><input type="text" id="h-notes" placeholder="e.g. Delivery run, overtime..."></div></div>
-    <div style="display:flex;gap:12px;align-items:center;margin-top:4px"><button class="btn btn-navy" onclick="addHours()">Save Hours</button><span class="preview-calc" id="h-preview"></span></div>
-  </div></div>
+    <div class="card accent-border">
+      <h3>Sheets Sold</h3>
+      <div class="big" id="dashSheets">0</div>
+      <div class="sub">Total sheets</div>
+    </div>
+    <div class="card accent-border">
+      <h3>Total Cuts</h3>
+      <div class="big" id="dashCutsCount">0</div>
+      <div class="sub">Cut operations</div>
+    </div>
+    <div class="card green-border">
+      <h3>Gas Trips</h3>
+      <div class="big" id="dashGasTrips">0</div>
+      <div class="sub">This month</div>
+    </div>
+  </div>
+
+  <!-- Recent Orders -->
   <div class="card">
-    <div class="card-hdr"><span class="card-title">Hours History</span><div style="display:flex;gap:8px;align-items:center"><select id="h-month" style="padding:5px 9px;font-size:.78rem;border:1.5px solid var(--border);border-radius:6px" onchange="renderHours()"></select><span id="h-total" style="font-size:.84rem;font-weight:700;color:var(--navy)"></span></div></div>
-    <div class="card-body" style="padding:0"><div id="hours-wrap"></div></div>
+    <h3 style="font-size:15px;font-weight:700;color:var(--primary);margin-bottom:12px;">Recent Orders</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Customer</th><th>Material</th><th>Sheets</th><th>Cuts</th><th>Sheet Comm.</th><th>Cut Fee</th><th>Total</th></tr></thead>
+        <tbody id="recentOrdersTbl"><tr><td colspan="8" style="text-align:center;color:var(--muted);">No orders yet</td></tr></tbody>
+      </table>
+    </div>
   </div>
 </div>
-<div id="tab-gas" class="tab-content">
-  <div class="section-title">Gas & Travel Expenses</div>
-  <div class="card"><div class="card-body">
-    <div class="form-grid">
-      <div class="field"><label>Date</label><input type="date" id="g-date"></div>
-      <div class="field"><label>Amount ($)</label><input type="number" id="g-amount" step="0.01" placeholder="0.00"></div>
-      <div class="field"><label>Notes</label><input type="text" id="g-notes" placeholder="e.g. Round trip to store"></div>
-    </div>
-    <button class="btn btn-navy" onclick="addGas()" style="margin-top:4px">Add Expense</button>
-  </div></div>
-  <div class="card">
-    <div class="card-hdr"><span class="card-title">Expense History</span><div style="display:flex;gap:8px;align-items:center"><select id="g-month" style="padding:5px 9px;font-size:.78rem;border:1.5px solid var(--border);border-radius:6px" onchange="renderGas()"></select><span id="g-total" style="font-size:.84rem;font-weight:700;color:var(--warning)"></span></div></div>
-    <div class="card-body" style="padding:0"><div id="gas-wrap"></div></div>
+
+<!-- CUTTING ORDERS -->
+<div id="tab-orders" class="tab">
+  <div class="sec-head">
+    <h2>✂️ Cutting Orders</h2>
   </div>
-</div>
-<div id="tab-orders" class="tab-content">
-  <div class="section-title">New Cutting Order</div>
-  <div class="card"><div class="card-body">
-    <div class="form-grid">
-      <div class="field"><label>Order #</label><input type="text" id="o-num" readonly></div>
-      <div class="field"><label>Date</label><input type="date" id="o-date"></div>
-      <div class="field"><label>Customer Name</label><input type="text" id="o-client" placeholder="Client / Company"></div>
-      <div class="field"><label>Phone</label><input type="text" id="o-phone" placeholder="514-xxx-xxxx"></div>
+
+  <div class="form-card">
+    <h3>New Cutting Order</h3>
+    <div class="form-row">
+      <label>Date
+        <input type="date" id="ordDate">
+      </label>
+      <label>Customer Name
+        <input type="text" id="ordCustomer" placeholder="Customer / Walk-in">
+      </label>
+      <label>Material Type
+        <select id="ordMaterial" onchange="calcOrder()">
+          <option value="">-- Select --</option>
+          <option value="Clear 1/8&quot; (3mm)|115">Clear 1/8" (3mm) — $115</option>
+          <option value="Clear 3/16&quot; (5mm)|140">Clear 3/16" (5mm) — $140</option>
+          <option value="Clear 1/4&quot; (6mm)|165">Clear 1/4" (6mm) — $165</option>
+          <option value="Clear 3/8&quot; (10mm)|210">Clear 3/8" (10mm) — $210</option>
+          <option value="Clear 1/2&quot; (12mm)|255">Clear 1/2" (12mm) — $255</option>
+          <option value="White 1/8&quot;|125">White 1/8" — $125</option>
+          <option value="White 1/4&quot;|168">White 1/4" — $168</option>
+          <option value="Colored 1/8&quot;|132">Colored 1/8" — $132</option>
+          <option value="Colored 1/4&quot;|178">Colored 1/4" — $178</option>
+          <option value="Mirror 1/8&quot;|145">Mirror 1/8" — $145</option>
+          <option value="Mirror 1/4&quot;|192">Mirror 1/4" — $192</option>
+          <option value="Frosted 1/8&quot;|148">Frosted 1/8" — $148</option>
+          <option value="Frosted 1/4&quot;|195">Frosted 1/4" — $195</option>
+          <option value="Custom|0">Custom Price</option>
+        </select>
+      </label>
     </div>
-    <div class="divider"></div>
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="font-weight:700;font-size:.88rem;color:var(--navy)">Cut Pieces</span><button class="btn btn-ghost btn-sm" onclick="addItem()">+ Add Piece</button></div>
-    <div id="items-wrap"></div>
-    <div class="divider"></div>
-    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px">
-      <div>
-        <div style="font-size:.82rem;color:var(--muted)">Subtotal: <strong id="o-sub">$0.00</strong></div>
-        <div style="font-size:.82rem;color:var(--muted)">HST (<span id="o-tax-pct">13</span>%): <strong id="o-tax">$0.00</strong></div>
-        <div style="font-size:1.05rem;font-weight:800;color:var(--navy);margin-top:3px">Total: <span id="o-total">$0.00 CAD</span></div>
+    <div class="form-row">
+      <label>Sheet Price ($)
+        <input type="number" id="ordSheetPrice" placeholder="Auto from material" oninput="calcOrder()" min="0">
+      </label>
+      <label>Number of Sheets
+        <input type="number" id="ordSheets" value="1" min="1" oninput="calcOrder()">
+      </label>
+      <label>Number of Cuts
+        <input type="number" id="ordCuts" value="0" min="0" oninput="calcOrder()">
+      </label>
+    </div>
+    <div class="form-row">
+      <label>Sheet Commission (15%)
+        <input type="text" id="ordComm" class="calc" readonly>
+      </label>
+      <label>Cut Fee ($20 × cuts)
+        <input type="text" id="ordCutFee" class="calc" readonly>
+      </label>
+      <label>MY TOTAL EARNINGS
+        <input type="text" id="ordTotal" class="calc" readonly style="font-size:16px;color:var(--green);font-weight:700;">
+      </label>
+    </div>
+    <div class="form-row">
+      <label style="flex:2;">Notes
+        <input type="text" id="ordNotes" placeholder="Customer request, dimensions, special cuts...">
+      </label>
+      <label>Attachment (photo/PDF)
+        <input type="file" id="ordFile" accept="image/*,.pdf" style="padding:6px;">
+      </label>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:8px;">
+      <button class="btn btn-primary" onclick="addOrder()">+ Add Order</button>
+      <button class="btn btn-sm" style="background:#eee;" onclick="clearOrderForm()">Clear</button>
+    </div>
+  </div>
+
+  <!-- Filter -->
+  <div class="form-card" style="padding:12px 20px;">
+    <div class="form-row" style="margin:0;align-items:flex-end;">
+      <label>Filter by Month
+        <input type="month" id="ordFilterMonth" onchange="renderOrders()">
+      </label>
+      <div style="display:flex;gap:8px;align-items:flex-end;padding-bottom:2px;">
+        <button class="btn btn-sm btn-primary" onclick="exportOrdersCSV()">⬇ Export CSV</button>
       </div>
-      <div style="display:flex;gap:8px;align-items:flex-end">
-        <div class="field"><label>Notes</label><input type="text" id="o-notes" placeholder="Additional notes..." style="min-width:200px"></div>
-        <button class="btn btn-gold" onclick="saveOrder()">Save Order</button>
-      </div>
     </div>
-  </div></div>
-  <div class="section-title" style="margin-top:4px">All Orders</div>
+  </div>
+
+  <!-- Summary -->
+  <div class="grid g3" style="margin-bottom:16px;" id="ordSummaryCards">
+    <div class="card accent-border">
+      <h3>Sheet Commission</h3>
+      <div class="big" id="ordSumComm">$0</div>
+    </div>
+    <div class="card accent-border">
+      <h3>Cut Fees</h3>
+      <div class="big" id="ordSumCuts">$0</div>
+    </div>
+    <div class="card green-border">
+      <h3>Total Earnings</h3>
+      <div class="big" id="ordSumTotal">$0</div>
+    </div>
+  </div>
+
   <div class="card">
-    <div class="card-hdr"><span class="card-title">Order List</span><select id="o-filter" style="padding:5px 9px;font-size:.78rem;border:1.5px solid var(--border);border-radius:6px" onchange="renderOrders()"><option value="">All</option><option value="pending">Pending</option><option value="done">Completed</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option></select></div>
-    <div class="card-body" style="padding:0"><div id="orders-wrap"></div></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Customer</th><th>Material</th><th>Sheets</th><th>Sheet $</th><th>Cuts</th><th>Sheet Comm.</th><th>Cut Fee</th><th>My Total</th><th>Notes</th><th>📎</th><th>Del</th></tr></thead>
+        <tbody id="ordersTbl"><tr><td colspan="12" style="text-align:center;color:var(--muted);">No orders yet</td></tr></tbody>
+      </table>
+    </div>
   </div>
 </div>
-<div id="tab-settings" class="tab-content">
-  <div class="section-title">Settings</div>
-  <div class="card"><div class="card-hdr"><span class="card-title">My Profile</span></div><div class="card-body">
-    <div class="form-grid">
-      <div class="field"><label>Your Name</label><input type="text" id="s-name" placeholder="Full name"></div>
-      <div class="field"><label>Hourly Rate ($)</label><input type="number" id="s-rate" step="0.5" value="20"></div>
+
+<!-- GAS & TRAVEL -->
+<div id="tab-gas" class="tab">
+  <div class="sec-head"><h2>⛽ Gas & Travel</h2></div>
+
+  <div class="form-card">
+    <h3>Log Gas / Travel</h3>
+    <div class="form-row">
+      <label>Date <input type="date" id="gasDate"></label>
+      <label>Description <input type="text" id="gasDesc" placeholder="Delivery, pickup, client visit..."></label>
+      <label>Amount ($) <input type="number" id="gasAmt" placeholder="0.00" min="0" step="0.01"></label>
     </div>
-  </div></div>
-  <div class="card"><div class="card-hdr"><span class="card-title">Pricing</span></div><div class="card-body">
-    <div class="info-box">Based on official <a href="https://gmcplexiglass.com" target="_blank" style="color:var(--navy);font-weight:700">gmcplexiglass.com</a> prices.</div>
-    <div class="form-grid">
-      <div class="field"><label>Tax Rate</label><select id="s-tax"><option value="0">No tax</option><option value="5">5% GST</option><option value="13" selected>13% HST (ON)</option><option value="14.975">14.975% QST+GST</option><option value="15">15% HST</option></select></div>
-      <div class="field"><label>Cut Fee/Piece ($)</label><input type="number" id="s-cut" step="0.5" value="2"></div>
-      <div class="field"><label>Markup (%)</label><input type="number" id="s-markup" step="5" value="50"></div>
+    <div class="form-row">
+      <label>KM / Miles <input type="number" id="gasKm" placeholder="Optional" min="0"></label>
+      <label>Attachment <input type="file" id="gasFile" accept="image/*,.pdf" style="padding:6px;"></label>
+      <label>Notes <input type="text" id="gasNotes" placeholder="Optional"></label>
     </div>
-  </div></div>
-  <div style="display:flex;gap:10px;flex-wrap:wrap">
-    <button class="btn btn-navy" onclick="saveSettings()">Save Settings</button>
-    <button class="btn btn-ghost" style="color:var(--danger)" onclick="clearData()">Clear Data</button>
+    <button class="btn btn-primary" onclick="addGas()">+ Add Entry</button>
+  </div>
+
+  <div class="grid g3" style="margin-bottom:16px;">
+    <div class="card accent-border">
+      <h3>This Month Gas</h3>
+      <div class="big" id="gasMthTotal">$0</div>
+    </div>
+    <div class="card accent-border">
+      <h3>Total KM</h3>
+      <div class="big" id="gasMthKm">0</div>
+    </div>
+    <div class="card accent-border">
+      <h3>Entries</h3>
+      <div class="big" id="gasMthCount">0</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-head" style="margin-bottom:12px;">
+      <span style="font-size:15px;font-weight:700;color:var(--primary);">Gas Entries</span>
+      <input type="month" id="gasFilterMonth" onchange="renderGas()" style="border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:13px;">
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>KM</th><th>Notes</th><th>📎</th><th>Del</th></tr></thead>
+        <tbody id="gasTbl"><tr><td colspan="7" style="text-align:center;color:var(--muted);">No entries yet</td></tr></tbody>
+      </table>
+    </div>
   </div>
 </div>
+
+<!-- WORK LOG -->
+<div id="tab-hours" class="tab">
+  <div class="sec-head"><h2>🕐 Work Log</h2></div>
+  <p style="color:var(--muted);font-size:13px;margin-bottom:16px;">Personal time log — for reference only. Earnings are calculated from orders.</p>
+
+  <div class="form-card">
+    <h3>Log Work Time</h3>
+    <div class="form-row">
+      <label>Date <input type="date" id="hrDate"></label>
+      <label>Type
+        <select id="hrType">
+          <option>Work</option>
+          <option>Training</option>
+          <option>Delivery</option>
+          <option>Setup</option>
+          <option>Other</option>
+        </select>
+      </label>
+      <label>Hours <input type="number" id="hrHours" placeholder="0" min="0" step="0.5"></label>
+    </div>
+    <div class="form-row">
+      <label style="flex:2;">Notes <input type="text" id="hrNotes" placeholder="What did you do today?"></label>
+      <label>Attachment <input type="file" id="hrFile" accept="image/*,.pdf" style="padding:6px;"></label>
+    </div>
+    <button class="btn btn-primary" onclick="addHour()">+ Log Time</button>
+  </div>
+
+  <div class="grid g3" style="margin-bottom:16px;">
+    <div class="card accent-border">
+      <h3>Hours This Month</h3>
+      <div class="big" id="hrMthHours">0h</div>
+    </div>
+    <div class="card accent-border">
+      <h3>Days Worked</h3>
+      <div class="big" id="hrMthDays">0</div>
+    </div>
+    <div class="card accent-border">
+      <h3>Avg Hours/Day</h3>
+      <div class="big" id="hrMthAvg">0h</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-head" style="margin-bottom:12px;">
+      <span style="font-size:15px;font-weight:700;color:var(--primary);">Work Log</span>
+      <input type="month" id="hrFilterMonth" onchange="renderHours()" style="border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:13px;">
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Type</th><th>Hours</th><th>Notes</th><th>📎</th><th>Del</th></tr></thead>
+        <tbody id="hrTbl"><tr><td colspan="6" style="text-align:center;color:var(--muted);">No entries yet</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div id="tab-settings" class="tab">
+  <div class="sec-head"><h2>⚙️ Settings</h2></div>
+  <div class="form-card">
+    <h3>Employee Info</h3>
+    <div class="form-row">
+      <label>Your Name <input type="text" id="setName" placeholder="Mohammed"></label>
+      <label>Position <input type="text" id="setPosition" placeholder="Cutter / Operator"></label>
+    </div>
+    <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+  </div>
+  <div class="form-card">
+    <h3>Commission Rates</h3>
+    <div class="form-row">
+      <label>Sheet Commission (%)
+        <input type="number" id="setCommRate" value="15" min="1" max="100">
+      </label>
+      <label>Cut Fee per Cut ($)
+        <input type="number" id="setCutFee" value="20" min="0">
+      </label>
+    </div>
+    <button class="btn btn-primary" onclick="saveSettings()">Save Rates</button>
+  </div>
+  <div class="form-card" style="border-left:4px solid var(--red);">
+    <h3 style="color:var(--red);">Danger Zone</h3>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Clear all local data. Cannot be undone.</p>
+    <button class="btn btn-danger" onclick="clearAll()">Clear All Data</button>
+  </div>
+</div>
+
 </main>
-<input type="file" id="_fi" accept="image/*,.pdf" multiple style="display:none" onchange="_handleUpload(this)">
-<div id="attach-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;justify-content:center;align-items:center;padding:16px">
-  <div style="background:#fff;border-radius:14px;padding:22px;width:100%;max-width:460px;max-height:82vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.25)">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-      <span style="font-weight:800;font-size:.95rem;color:var(--navy)" id="am-title">Attachments</span>
-      <button onclick="closeAttach()" style="border:none;background:#F3F4F6;width:28px;height:28px;border-radius:50%;cursor:pointer">x</button>
-    </div>
-    <div id="am-files"></div>
-    <button id="am-ubtn" class="btn btn-navy btn-sm" onclick="_triggerUpload()" style="width:100%;justify-content:center;margin-top:10px">+ Upload Image / PDF</button>
-  </div>
-</div>
+
 <script>
-const MATS=[{n:'Clear 3mm',cost:115},{n:'Black 3mm',cost:165},{n:'Frosted 3mm',cost:165},{n:'White 3mm',cost:165},{n:'Smoked Brown 3mm',cost:185},{n:'Clear 4.5mm',cost:165},{n:'Black 4.5mm',cost:185},{n:'Frosted 4.5mm',cost:185},{n:'White 4.5mm',cost:185},{n:'Smoked Brown 4.5mm',cost:225},{n:'Gold Mirror 4.5mm',cost:265},{n:'Silver Mirror 4.5mm',cost:265},{n:'Clear 5.5mm',cost:185}];
-const SHEET_IN2=4608;
-const FB='https://gmc-plexiglass-default-rtdb.firebaseio.com';
-const SHARED=['hours','gas','orders'];
-function setSyncStatus(s){const dot=$('sync-dot'),txt=$('sync-status');if(s==='syncing'){dot.className='sync-dot syncing';txt.textContent='Syncing...';}else if(s==='ok'){dot.className='sync-dot';dot.style.background='#16A34A';txt.textContent='Synced';}else{dot.className='sync-dot';dot.style.background='#D97706';txt.textContent='Offline';}}
-async function syncFromFirebase(){setSyncStatus('syncing');let ok=false;for(const k of SHARED){try{const r=await fetch(FB+'/'+k+'.json');if(r.ok)ok=true;const d=await r.json();if(d!==null){const a=(Array.isArray(d)?d:Object.values(d)).filter(x=>x!==null);localStorage.setItem('gmc_'+k,JSON.stringify(a));}}catch(e){}}setSyncStatus(ok?'ok':'offline');}
-const ld=k=>JSON.parse(localStorage.getItem('gmc_'+k)||'[]');
-const sv=(k,v)=>{localStorage.setItem('gmc_'+k,JSON.stringify(v));if(SHARED.includes(k)){setSyncStatus('syncing');fetch(FB+'/'+k+'.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(v)}).then(()=>setSyncStatus('ok')).catch(()=>setSyncStatus('offline'));}};
-const ldS=()=>JSON.parse(localStorage.getItem('gmc_settings')||'{}');
-const svS=s=>localStorage.setItem('gmc_settings',JSON.stringify(s));
-const $=id=>document.getElementById(id);
-let iCount=0;
-function init(){initDB();const today=new Date().toISOString().split('T')[0];$('h-date').value=today;$('g-date').value=today;$('o-date').value=today;applySettings();buildFilters();syncFromFirebase().then(()=>{renderDash();renderHours();renderGas();renderOrders();});genNum();['h-start','h-end','h-rate'].forEach(id=>$(id).addEventListener('input',previewH));}
-function showTab(t){document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(e=>e.classList.remove('active'));$('tab-'+t).classList.add('active');document.querySelectorAll('.tab-btn').forEach(e=>{if(e.getAttribute('onclick')?.includes("'"+t+"'"))e.classList.add('active')});if(t==='dash')renderDash();}
-const MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
-function fmtDate(d){if(!d)return'--';const[y,m,dd]=d.split('-');return MN[+m-1]+' '+dd+', '+y}
-function fmtMon(m){const[y,mo]=m.split('-');return MN[+mo-1]+' '+y}
-function curM(){return new Date().toISOString().substring(0,7)}
-function allMonths(){const all=[...ld('orders'),...ld('hours'),...ld('gas')].map(r=>(r.date||'').substring(0,7)).filter(Boolean);const set=[...new Set(all)].sort().reverse();const now=curM();if(!set.includes(now))set.unshift(now);return set;}
-function buildFilters(){const months=allMonths(),now=curM();['h-month','g-month'].forEach(id=>{const el=$(id);if(!el)return;const cur=el.value||now;el.innerHTML=months.map(m=>'<option value="'+m+'"'+(m===cur?' selected':'')+'>'+fmtMon(m)+'</option>').join('');});}
-const SL={pending:'Pending',done:'Completed',delivered:'Delivered',cancelled:'Cancelled'};
-const SC={pending:'b-pending',done:'b-done',delivered:'b-delivered',cancelled:'b-cancelled'};
-function renderDash(){const m=curM(),hrs=ld('hours').filter(r=>r.date.startsWith(m)),gas=ld('gas').filter(r=>r.date.startsWith(m)),ords=ld('orders').filter(o=>o.date.startsWith(m));const tH=hrs.reduce((s,r)=>s+r.hours,0),tE=hrs.reduce((s,r)=>s+r.earnings,0),tG=gas.reduce((s,r)=>s+r.amount,0);$('d-hours').textContent=tH.toFixed(1)+'h';$('d-earn').textContent='$'+tE.toFixed(0);$('d-gas').textContent='$'+tG.toFixed(0);$('d-net').textContent='$'+(tE-tG).toFixed(0);$('d-orders').textContent=ords.length;const ro=ld('orders').sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);$('d-orders-list').innerHTML=ro.length?'<table class="tbl"><thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Status</th></tr></thead><tbody>'+ro.map(o=>'<tr><td><strong>'+o.num+'</strong></td><td>'+o.client+'</td><td>$'+o.total.toFixed(2)+'</td><td><span class="badge '+SC[o.status]+'">'+SL[o.status]+'</span></td></tr>').join('')+'</tbody></table>':'<div class="empty"><div class="icon">&#9986;</div><p>No orders yet</p></div>';const rh=ld('hours').sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);$('d-hours-list').innerHTML=rh.length?'<table class="tbl"><thead><tr><th>Date</th><th>Hours</th><th>Earned</th></tr></thead><tbody>'+rh.map(r=>'<tr><td>'+fmtDate(r.date)+'</td><td>'+r.hours.toFixed(2)+'h</td><td><strong style="color:#16A34A">$'+r.earnings.toFixed(2)+'</strong></td></tr>').join('')+'</tbody></table>':'<div class="empty"><div class="icon">&#128336;</div><p>No hours logged</p></div>';}
-function calcH(s,e){const[sh,sm]=s.split(':').map(Number),[eh,em]=e.split(':').map(Number);let m=(eh*60+em)-(sh*60+sm);if(m<0)m+=1440;return m/60}
-function previewH(){const s=$('h-start').value,e=$('h-end').value,r=+$('h-rate').value||0;if(s&&e){const h=calcH(s,e);$('h-preview').textContent=h>0?h.toFixed(2)+'h x $'+r+'/hr = $'+(h*r).toFixed(2):''}}
-function addHours(){const date=$('h-date').value,start=$('h-start').value,end=$('h-end').value;const cfg=ldS(),rate=+$('h-rate').value||cfg.rate||0,notes=$('h-notes').value;if(!date||!start||!end){alert('Please fill in date and times.');return}const hrs=calcH(start,end);if(hrs<=0){alert('End time must be after start time.');return}const data=ld('hours');data.push({id:Date.now(),date,start,end,hours:hrs,rate,earnings:hrs*rate,notes});sv('hours',data);$('h-start').value='';$('h-end').value='';$('h-notes').value='';$('h-preview').textContent='';buildFilters();renderHours();renderDash();}
-function delHours(id){if(!confirm('Delete?'))return;sv('hours',ld('hours').filter(r=>r.id!==id));renderHours();}
-function renderHours(){buildFilters();const month=$('h-month').value||curM();const data=ld('hours').filter(r=>r.date.startsWith(month)).sort((a,b)=>b.date.localeCompare(a.date));const tH=data.reduce((s,r)=>s+r.hours,0),tE=data.reduce((s,r)=>s+r.earnings,0);$('h-total').textContent=tH.toFixed(1)+'h = $'+tE.toFixed(2);const w=$('hours-wrap');if(!data.length){w.innerHTML='<div class="empty"><div class="icon">&#128203;</div><p>No entries</p></div>';return}w.innerHTML='<table class="tbl"><thead><tr><th>Date</th><th>Start</th><th>End</th><th>Hours</th><th>Rate</th><th>Earned</th><th>Receipt</th><th></th></tr></thead><tbody>'+data.map(r=>'<tr><td>'+fmtDate(r.date)+'</td><td>'+r.start+'</td><td>'+r.end+'</td><td><strong>'+r.hours.toFixed(2)+'h</strong></td><td>$'+(r.rate||0).toFixed(2)+'</td><td><strong style="color:#16A34A">$'+(r.earnings||0).toFixed(2)+'</strong></td><td><button class="btn btn-ghost btn-xs" id="gab-'+r.id+'" onclick="openAttach(\'hrs_'+r.id+'\',\'Receipt\',renderHours)">&#128206;</button></td><td><button class="btn btn-danger btn-xs" onclick="delHours('+r.id+')">x</button></td></tr>').join('')+'</tbody></table>';data.forEach(r=>_updBtn('gab-'+r.id,'hrs_'+r.id));}
-function addGas(){const date=$('g-date').value,amount=+$('g-amount').value||0,notes=$('g-notes').value;if(!date||!amount){alert('Please enter date and amount.');return}const data=ld('gas');data.push({id:Date.now(),date,amount,notes});sv('gas',data);$('g-amount').value='';$('g-notes').value='';buildFilters();renderGas();renderDash();}
-function delGas(id){if(!confirm('Delete?'))return;sv('gas',ld('gas').filter(r=>r.id!==id));renderGas();}
-function renderGas(){buildFilters();const month=$('g-month').value||curM();const data=ld('gas').filter(r=>r.date.startsWith(month)).sort((a,b)=>b.date.localeCompare(a.date));const total=data.reduce((s,r)=>s+r.amount,0);$('g-total').textContent='Total: $'+total.toFixed(2);const w=$('gas-wrap');if(!data.length){w.innerHTML='<div class="empty"><div class="icon">&#9981;</div><p>No expenses</p></div>';return}w.innerHTML='<table class="tbl"><thead><tr><th>Date</th><th>Amount</th><th>Notes</th><th>Receipt</th><th></th></tr></thead><tbody>'+data.map(r=>'<tr><td>'+fmtDate(r.date)+'</td><td><strong style="color:#D97706">$'+r.amount.toFixed(2)+'</strong></td><td style="color:#6B7280">'+( r.notes||'--')+'</td><td><button class="btn btn-ghost btn-xs" id="gab-'+r.id+'" onclick="openAttach(\'gas_'+r.id+'\',\'Receipt\',renderGas)">&#128206;</button></td><td><button class="btn btn-danger btn-xs" onclick="delGas('+r.id+')">x</button></td></tr>').join('')+'</tbody></table>';data.forEach(r=>_updBtn('gab-'+r.id,'gas_'+r.id));}
-function genNum(){$('o-num').value='GMC-'+String(ld('orders').length+1).padStart(4,'0')}
-function matOpts(){return MATS.map((m,i)=>'<option value="'+i+'">'+m.n+' -- $'+m.cost+' CAD</option>').join('')}
-function addItem(){iCount++;const id=iCount;const div=document.createElement('div');div.className='item-row';div.id='ir-'+id;div.innerHTML='<div class="field" style="flex:2"><label>Material</label><select onchange="calcItem('+id+')">'+matOpts()+'</select></div><div class="field" style="flex:0 0 90px"><label>Width (in)</label><input type="number" step="0.25" oninput="calcItem('+id+')"></div><div class="field" style="flex:0 0 90px"><label>Length (in)</label><input type="number" step="0.25" oninput="calcItem('+id+')"></div><div class="field" style="flex:0 0 60px"><label>Qty</label><input type="number" value="1" min="1" oninput="calcItem('+id+')"></div><div class="field" style="flex:0 0 95px"><label>Price</label><input type="text" readonly id="ip-'+id+'" value="$0.00" style="background:#F0FDF4;font-weight:700;color:#16A34A"></div><div><button class="btn btn-danger btn-xs" onclick="removeItem('+id+')" style="margin-top:20px;height:34px">x</button></div>';$('items-wrap').appendChild(div);}
-function removeItem(id){const el=$('ir-'+id);if(el)el.remove();calcTotal();}
-function calcItem(id){const row=$('ir-'+id);if(!row)return;const sel=row.querySelector('select'),ins=row.querySelectorAll('input[type="number"]');const mat=MATS[+sel.value],w=+ins[0].value||0,h=+ins[1].value||0,qty=+ins[2].value||1;const cfg=ldS(),markup=(+cfg.markup||50)/100,cutFee=+cfg.cut||2;const line=(w*h*(mat.cost/SHEET_IN2)*(1+markup)+cutFee)*qty;$('ip-'+id).value='$'+line.toFixed(2);calcTotal();}
-function calcTotal(){const cfg=ldS(),taxRate=(+cfg.tax||13)/100;let sub=0;document.querySelectorAll('[id^="ip-"]').forEach(el=>sub+=parseFloat(el.value.replace('$',''))||0);const tax=sub*taxRate;$('o-sub').textContent='$'+sub.toFixed(2);$('o-tax').textContent='$'+tax.toFixed(2);$('o-tax-pct').textContent=cfg.tax||13;$('o-total').textContent='$'+(sub+tax).toFixed(2)+' CAD';}
-function saveOrder(){const num=$('o-num').value,date=$('o-date').value,client=$('o-client').value.trim(),phone=$('o-phone').value.trim(),notes=$('o-notes').value;if(!date||!client){alert('Please enter date and customer name.');return}const cfg=ldS(),taxRate=(+cfg.tax||13)/100;const items=[];document.querySelectorAll('[id^="ir-"]').forEach(row=>{const sel=row.querySelector('select'),ins=row.querySelectorAll('input[type="number"]'),priceEl=row.querySelector('[id^="ip-"]');if(!sel)return;const w=+ins[0].value||0,h=+ins[1].value||0,qty=+ins[2].value||1;if(w>0&&h>0)items.push({material:MATS[+sel.value].n,w,h,qty,unitPrice:parseFloat((priceEl?.value||'0').replace('$',''))/qty,lineTotal:parseFloat((priceEl?.value||'0').replace('$',''))});});if(!items.length){alert('Please add at least one piece.');return}const sub=items.reduce((s,i)=>s+i.lineTotal,0),tax=sub*taxRate;const order={id:Date.now(),num,date,client,phone,notes,items,sub,tax,total:sub+tax,status:'pending'};const orders=ld('orders');orders.push(order);sv('orders',orders);$('o-client').value='';$('o-phone').value='';$('o-notes').value='';$('items-wrap').innerHTML='';iCount=0;addItem();genNum();calcTotal();buildFilters();renderOrders();renderDash();alert('Order '+num+' saved!');}
-function setStatus(id,status){const orders=ld('orders'),idx=orders.findIndex(o=>o.id===id);if(idx>=0){orders[idx].status=status;sv('orders',orders);}renderOrders();}
-function delOrder(id){if(!confirm('Delete this order?'))return;sv('orders',ld('orders').filter(o=>o.id!==id));renderOrders();renderDash();}
-function renderOrders(){const filter=$('o-filter').value;let data=ld('orders').sort((a,b)=>b.date.localeCompare(a.date));if(filter)data=data.filter(o=>o.status===filter);const w=$('orders-wrap');if(!data.length){w.innerHTML='<div class="empty"><div class="icon">&#9986;</div><p>No orders</p></div>';return}w.innerHTML='<table class="tbl"><thead><tr><th>Order</th><th>Date</th><th>Customer</th><th>Total</th><th>Status</th><th></th></tr></thead><tbody>'+data.map(o=>'<tr><td><strong>'+o.num+'</strong></td><td>'+fmtDate(o.date)+'</td><td>'+o.client+'</td><td><strong style="color:#1A3A5C">$'+o.total.toFixed(2)+'</strong></td><td><select class="status-sel '+SC[o.status]+'" onchange="setStatus('+o.id+',this.value)"><option value="pending"'+(o.status==='pending'?' selected':'')+'>Pending</option><option value="done"'+(o.status==='done'?' selected':'')+'>Completed</option><option value="delivered"'+(o.status==='delivered'?' selected':'')+'>Delivered</option><option value="cancelled"'+(o.status==='cancelled'?' selected':'')+'>Cancelled</option></select></td><td><button class="btn btn-danger btn-xs" onclick="delOrder('+o.id+')">x</button></td></tr>').join('')+'</tbody></table>';}
-function applySettings(){const s=ldS();if(s.name){$('s-name').value=s.name;$('u-name').textContent=s.name;$('u-initial').textContent=s.name[0].toUpperCase()}if(s.rate){$('s-rate').value=s.rate;$('h-rate').value=s.rate}if(s.tax)$('s-tax').value=s.tax;if(s.cut)$('s-cut').value=s.cut;if(s.markup)$('s-markup').value=s.markup;}
-function saveSettings(){const s={name:$('s-name').value,rate:+$('s-rate').value||0,tax:+$('s-tax').value||13,cut:+$('s-cut').value||2,markup:+$('s-markup').value||50};svS(s);$('h-rate').value=s.rate||'';if(s.name){$('u-name').textContent=s.name;$('u-initial').textContent=s.name[0].toUpperCase()}alert('Settings saved!');}
-function clearData(){if(!confirm('Delete all local data?'))return;['hours','gas','orders'].forEach(k=>localStorage.removeItem('gmc_'+k));renderDash();renderHours();renderGas();renderOrders();}
-let _db=null;
-function initDB(){return new Promise(r=>{const req=indexedDB.open('gmc_files',1);req.onupgradeneeded=e=>e.target.result.createObjectStore('files',{keyPath:'key'});req.onsuccess=e=>{_db=e.target.result;r()};req.onerror=r;});}
-function _saveFile(key,file){return new Promise(resolve=>{const reader=new FileReader();reader.onload=e=>{const tx=_db.transaction('files','readwrite');const store=tx.objectStore('files');const req=store.get(key);req.onsuccess=ev=>{const rec=ev.target.result||{key,files:[]};rec.files.push({name:file.name,type:file.type,data:e.target.result,date:new Date().toISOString()});store.put(rec);tx.oncomplete=resolve;};};reader.readAsDataURL(file);});}
-function _getFiles(key){return new Promise(resolve=>{if(!_db){resolve([]);return}const req=_db.transaction('files','readonly').objectStore('files').get(key);req.onsuccess=e=>resolve(e.target.result?.files||[]);req.onerror=()=>resolve([]);});}
-function _removeFile(key,idx){return new Promise(resolve=>{const tx=_db.transaction('files','readwrite');const store=tx.objectStore('files');const req=store.get(key);req.onsuccess=e=>{const rec=e.target.result;if(rec){rec.files.splice(idx,1);store.put(rec);}tx.oncomplete=resolve;};});}
-async function _updBtn(btnId,key){const c=(await _getFiles(key)).length;const b=$(btnId);if(!b)return;b.innerHTML=c?'&#128206; '+c:'&#128206;';b.className=c?'btn btn-navy btn-xs':'btn btn-ghost btn-xs';}
-let _aKey=null,_aRefresh=null;
-function openAttach(key,label,refresh){_aKey=key;_aRefresh=refresh||null;$('am-title').textContent=label;_renderAM();$('attach-modal').style.display='flex';}
-function closeAttach(){$('attach-modal').style.display='none';if(_aRefresh)_aRefresh();_aKey=null;}
-async function _renderAM(){const files=await _getFiles(_aKey);const w=$('am-files');if(!files.length){w.innerHTML='<p style="color:#9CA3AF;text-align:center;padding:24px;font-size:.83rem">No files attached yet.</p>';return}w.innerHTML=files.map((f,i)=>'<div style="display:flex;align-items:center;gap:10px;padding:10px;border:1.5px solid #E5E7EB;border-radius:8px;margin-bottom:8px">'+(f.type.startsWith('image/')?'<img src="'+f.data+'" style="width:46px;height:46px;object-fit:cover;border-radius:6px;flex-shrink:0">':'<div style="width:46px;height:46px;background:#EFF6FF;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0">&#128196;</div>')+'<div style="flex:1;min-width:0"><div style="font-size:.81rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+f.name+'</div><div style="font-size:.7rem;color:#6B7280">'+new Date(f.date).toLocaleDateString()+'</div></div><button class="btn btn-navy btn-xs" onclick="_viewFile('+i+')">View</button><button class="btn btn-danger btn-xs" onclick="_delFile('+i+')">x</button></div>').join('');}
-async function _viewFile(idx){const files=await _getFiles(_aKey);const f=files[idx];if(!f)return;if(f.type.startsWith('image/')){const w=window.open('','_blank');w.document.write('<html><body style="margin:0;background:#111;display:flex;justify-content:center;align-items:center;min-height:100vh"><img src="'+f.data+'" style="max-width:100%;max-height:100vh"></body></html>');}else{const bytes=atob(f.data.split(',')[1]),ab=new ArrayBuffer(bytes.length),ia=new Uint8Array(ab);for(let i=0;i<bytes.length;i++)ia[i]=bytes.charCodeAt(i);window.open(URL.createObjectURL(new Blob([ab],{type:'application/pdf'})),'_blank');}}
-async function _delFile(idx){if(!confirm('Remove?'))return;await _removeFile(_aKey,idx);_renderAM();}
-function _triggerUpload(){$('_fi').click()}
-async function _handleUpload(input){if(!_aKey||!input.files.length)return;const btn=$('am-ubtn');btn.textContent='Uploading...';btn.disabled=true;for(const f of input.files)await _saveFile(_aKey,f);input.value='';btn.textContent='+ Upload';btn.disabled=false;_renderAM();}
-init();addItem();
+// ========== CONFIG ==========
+const FB = 'https://gmc-plexiglass-default-rtdb.firebaseio.com';
+const SHARED = ['orders', 'gas', 'hours'];
+
+// ========== STATE ==========
+let DATA = { orders: [], gas: [], hours: [] };
+let SETTINGS = { name: 'Employee', position: 'Operator', commRate: 15, cutFee: 20 };
+let FILES = {}; // fileId -> base64
+
+// ========== INIT ==========
+document.addEventListener('DOMContentLoaded', () => {
+  loadLocal();
+  loadSettings();
+  setDefaultDates();
+  document.getElementById('dashDate').textContent = new Date().toLocaleDateString('en-CA', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  syncFromFirebase();
+  setInterval(syncFromFirebase, 30000);
+  renderAll();
+});
+
+function setDefaultDates() {
+  const today = new Date().toISOString().split('T')[0];
+  const ym = today.slice(0, 7);
+  ['ordDate','gasDate','hrDate'].forEach(id => { const el = document.getElementById(id); if(el) el.value = today; });
+  ['ordFilterMonth','gasFilterMonth','hrFilterMonth'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ym; });
+}
+
+// ========== LOCAL STORAGE ==========
+function loadLocal() {
+  try {
+    const d = localStorage.getItem('gmc_emp_data');
+    if(d) DATA = JSON.parse(d);
+    const f = localStorage.getItem('gmc_emp_files');
+    if(f) FILES = JSON.parse(f);
+  } catch(e) {}
+}
+
+function sv() {
+  localStorage.setItem('gmc_emp_data', JSON.stringify(DATA));
+  localStorage.setItem('gmc_emp_files', JSON.stringify(FILES));
+  pushToFirebase();
+}
+
+function loadSettings() {
+  try {
+    const s = localStorage.getItem('gmc_emp_settings');
+    if(s) SETTINGS = {...SETTINGS, ...JSON.parse(s)};
+    document.getElementById('setName').value = SETTINGS.name;
+    document.getElementById('setPosition').value = SETTINGS.position;
+    document.getElementById('setCommRate').value = SETTINGS.commRate;
+    document.getElementById('setCutFee').value = SETTINGS.cutFee;
+  } catch(e) {}
+}
+
+function saveSettings() {
+  SETTINGS.name = document.getElementById('setName').value || 'Employee';
+  SETTINGS.position = document.getElementById('setPosition').value || 'Operator';
+  SETTINGS.commRate = parseFloat(document.getElementById('setCommRate').value) || 15;
+  SETTINGS.cutFee = parseFloat(document.getElementById('setCutFee').value) || 20;
+  localStorage.setItem('gmc_emp_settings', JSON.stringify(SETTINGS));
+  calcOrder();
+  alert('Settings saved!');
+}
+
+function clearAll() {
+  if(confirm('Delete ALL data? This cannot be undone.')) {
+    localStorage.removeItem('gmc_emp_data');
+    localStorage.removeItem('gmc_emp_files');
+    DATA = { orders: [], gas: [], hours: [] };
+    FILES = {};
+    renderAll();
+  }
+}
+
+// ========== FIREBASE ==========
+async function pushToFirebase() {
+  setSyncStatus(false);
+  try {
+    for(const key of SHARED) {
+      await fetch(`${FB}/${key}.json`, {
+        method: 'PUT',
+        body: JSON.stringify(DATA[key] || [])
+      });
+    }
+    setSyncStatus(true);
+  } catch(e) { setSyncStatus(false); }
+}
+
+async function syncFromFirebase() {
+  try {
+    for(const key of SHARED) {
+      const r = await fetch(`${FB}/${key}.json`);
+      if(r.ok) {
+        const d = await r.json();
+        DATA[key] = Array.isArray(d) ? d : [];
+      }
+    }
+    localStorage.setItem('gmc_emp_data', JSON.stringify(DATA));
+    setSyncStatus(true);
+    renderAll();
+  } catch(e) { setSyncStatus(false); }
+}
+
+function setSyncStatus(ok) {
+  const el = document.getElementById('syncDot');
+  const tx = document.getElementById('syncTxt');
+  if(ok) { el.className = 'ok'; tx.textContent = 'Synced'; }
+  else { el.className = ''; tx.textContent = 'Offline'; }
+}
+
+// ========== TABS ==========
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+  renderAll();
+}
+
+// ========== CALC ORDER ==========
+function calcOrder() {
+  const mat = document.getElementById('ordMaterial').value;
+  let sheetPrice = parseFloat(document.getElementById('ordSheetPrice').value) || 0;
+
+  if(mat && mat.includes('|')) {
+    const basePrice = parseFloat(mat.split('|')[1]) || 0;
+    if(basePrice > 0) {
+      sheetPrice = basePrice;
+      document.getElementById('ordSheetPrice').value = basePrice;
+    }
+  }
+
+  const sheets = parseInt(document.getElementById('ordSheets').value) || 1;
+  const cuts = parseInt(document.getElementById('ordCuts').value) || 0;
+  const rate = SETTINGS.commRate / 100;
+  const cutFee = SETTINGS.cutFee;
+
+  const comm = sheetPrice * sheets * rate;
+  const cutTotal = cuts * cutFee;
+  const total = comm + cutTotal;
+
+  document.getElementById('ordComm').value = '$' + comm.toFixed(2);
+  document.getElementById('ordCutFee').value = '$' + cutTotal.toFixed(2);
+  document.getElementById('ordTotal').value = '$' + total.toFixed(2);
+}
+
+// ========== ORDERS ==========
+function addOrder() {
+  const mat = document.getElementById('ordMaterial').value;
+  const matName = mat.includes('|') ? mat.split('|')[0] : mat;
+  const sheetPrice = parseFloat(document.getElementById('ordSheetPrice').value) || 0;
+  const sheets = parseInt(document.getElementById('ordSheets').value) || 1;
+  const cuts = parseInt(document.getElementById('ordCuts').value) || 0;
+  const date = document.getElementById('ordDate').value;
+  const customer = document.getElementById('ordCustomer').value || 'Walk-in';
+  const notes = document.getElementById('ordNotes').value;
+
+  if(!date || !matName) { alert('Please fill in Date and Material.'); return; }
+
+  const rate = SETTINGS.commRate / 100;
+  const comm = sheetPrice * sheets * rate;
+  const cutTotal = cuts * SETTINGS.cutFee;
+  const total = comm + cutTotal;
+
+  const entry = {
+    id: Date.now(),
+    date, customer, material: matName, sheetPrice, sheets, cuts,
+    comm: parseFloat(comm.toFixed(2)),
+    cutFee: parseFloat(cutTotal.toFixed(2)),
+    total: parseFloat(total.toFixed(2)),
+    notes,
+    fileId: null
+  };
+
+  // Handle file
+  const file = document.getElementById('ordFile').files[0];
+  if(file) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const fid = 'f' + Date.now();
+      FILES[fid] = { name: file.name, data: e.target.result };
+      entry.fileId = fid;
+      DATA.orders.unshift(entry);
+      sv(); renderOrders(); renderDashboard();
+    };
+    reader.readAsDataURL(file);
+  } else {
+    DATA.orders.unshift(entry);
+    sv(); renderOrders(); renderDashboard();
+  }
+  clearOrderForm();
+}
+
+function clearOrderForm() {
+  ['ordCustomer','ordSheetPrice','ordNotes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('ordMaterial').value = '';
+  document.getElementById('ordSheets').value = 1;
+  document.getElementById('ordCuts').value = 0;
+  document.getElementById('ordFile').value = '';
+  ['ordComm','ordCutFee','ordTotal'].forEach(id => document.getElementById(id).value = '');
+}
+
+function deleteOrder(id) {
+  if(!confirm('Delete this order?')) return;
+  DATA.orders = DATA.orders.filter(o => o.id !== id);
+  sv(); renderOrders(); renderDashboard();
+}
+
+function renderOrders() {
+  const month = document.getElementById('ordFilterMonth')?.value;
+  const rows = month ? DATA.orders.filter(o => o.date.startsWith(month)) : DATA.orders;
+  const tbody = document.getElementById('ordersTbl');
+
+  let sumComm = 0, sumCuts = 0, sumTotal = 0;
+  rows.forEach(o => { sumComm += o.comm||0; sumCuts += o.cutFee||0; sumTotal += o.total||0; });
+
+  document.getElementById('ordSumComm').textContent = '$' + sumComm.toFixed(2);
+  document.getElementById('ordSumCuts').textContent = '$' + sumCuts.toFixed(2);
+  document.getElementById('ordSumTotal').textContent = '$' + sumTotal.toFixed(2);
+
+  if(!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="12" style="text-align:center;color:var(--muted);">No orders for this period</td></tr>';
+    return;
+  }
+  tbody.innerHTML = rows.map(o => `
+    <tr>
+      <td>${o.date}</td>
+      <td>${o.customer}</td>
+      <td>${o.material}</td>
+      <td>${o.sheets||1}</td>
+      <td>$${(o.sheetPrice||0).toFixed(2)}</td>
+      <td>${o.cuts||0}</td>
+      <td>$${(o.comm||0).toFixed(2)}</td>
+      <td>$${(o.cutFee||0).toFixed(2)}</td>
+      <td class="earn-cell">$${(o.total||0).toFixed(2)}</td>
+      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;">${o.notes||''}</td>
+      <td>${o.fileId && FILES[o.fileId] ? `<a href="${FILES[o.fileId].data}" target="_blank" title="${FILES[o.fileId].name}">📎</a>` : ''}</td>
+      <td><button class="btn btn-danger" onclick="deleteOrder(${o.id})">✕</button></td>
+    </tr>
+  `).join('');
+}
+
+function exportOrdersCSV() {
+  const rows = DATA.orders;
+  if(!rows.length) { alert('No orders to export.'); return; }
+  const header = ['Date','Customer','Material','Sheets','Sheet Price','Cuts','Sheet Commission','Cut Fee','My Total','Notes'];
+  const csv = [header.join(','), ...rows.map(o =>
+    [o.date, `"${o.customer}"`, `"${o.material}"`, o.sheets||1, o.sheetPrice||0, o.cuts||0,
+     o.comm||0, o.cutFee||0, o.total||0, `"${o.notes||''}"`].join(',')
+  )].join('\n');
+  downloadFile('GMC_Orders.csv', 'text/csv', csv);
+}
+
+// ========== GAS ==========
+function addGas() {
+  const date = document.getElementById('gasDate').value;
+  const desc = document.getElementById('gasDesc').value;
+  const amt = parseFloat(document.getElementById('gasAmt').value) || 0;
+  const km = parseFloat(document.getElementById('gasKm').value) || 0;
+  const notes = document.getElementById('gasNotes').value;
+
+  if(!date) { alert('Please enter a date.'); return; }
+
+  const entry = { id: Date.now(), date, desc, amt, km, notes, fileId: null };
+
+  const file = document.getElementById('gasFile').files[0];
+  if(file) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const fid = 'f' + Date.now();
+      FILES[fid] = { name: file.name, data: e.target.result };
+      entry.fileId = fid;
+      DATA.gas.unshift(entry);
+      sv(); renderGas(); renderDashboard();
+    };
+    reader.readAsDataURL(file);
+  } else {
+    DATA.gas.unshift(entry);
+    sv(); renderGas(); renderDashboard();
+  }
+  ['gasDesc','gasAmt','gasKm','gasNotes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('gasFile').value = '';
+}
+
+function deleteGas(id) {
+  if(!confirm('Delete this entry?')) return;
+  DATA.gas = DATA.gas.filter(g => g.id !== id);
+  sv(); renderGas(); renderDashboard();
+}
+
+function renderGas() {
+  const month = document.getElementById('gasFilterMonth')?.value;
+  const rows = month ? DATA.gas.filter(g => g.date.startsWith(month)) : DATA.gas;
+  const tbody = document.getElementById('gasTbl');
+
+  const total = rows.reduce((s, g) => s + (g.amt||0), 0);
+  const km = rows.reduce((s, g) => s + (g.km||0), 0);
+  document.getElementById('gasMthTotal').textContent = '$' + total.toFixed(2);
+  document.getElementById('gasMthKm').textContent = km.toFixed(0);
+  document.getElementById('gasMthCount').textContent = rows.length;
+
+  if(!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);">No entries</td></tr>';
+    return;
+  }
+  tbody.innerHTML = rows.map(g => `
+    <tr>
+      <td>${g.date}</td>
+      <td>${g.desc||''}</td>
+      <td>$${(g.amt||0).toFixed(2)}</td>
+      <td>${g.km||0} km</td>
+      <td>${g.notes||''}</td>
+      <td>${g.fileId && FILES[g.fileId] ? `<a href="${FILES[g.fileId].data}" target="_blank">📎</a>` : ''}</td>
+      <td><button class="btn btn-danger" onclick="deleteGas(${g.id})">✕</button></td>
+    </tr>
+  `).join('');
+}
+
+// ========== HOURS ==========
+function addHour() {
+  const date = document.getElementById('hrDate').value;
+  const type = document.getElementById('hrType').value;
+  const hours = parseFloat(document.getElementById('hrHours').value) || 0;
+  const notes = document.getElementById('hrNotes').value;
+  if(!date || !hours) { alert('Please fill date and hours.'); return; }
+
+  const entry = { id: Date.now(), date, type, hours, notes, fileId: null };
+
+  const file = document.getElementById('hrFile').files[0];
+  if(file) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const fid = 'f' + Date.now();
+      FILES[fid] = { name: file.name, data: e.target.result };
+      entry.fileId = fid;
+      DATA.hours.unshift(entry);
+      sv(); renderHours();
+    };
+    reader.readAsDataURL(file);
+  } else {
+    DATA.hours.unshift(entry);
+    sv(); renderHours();
+  }
+  ['hrHours','hrNotes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('hrFile').value = '';
+}
+
+function deleteHour(id) {
+  if(!confirm('Delete this entry?')) return;
+  DATA.hours = DATA.hours.filter(h => h.id !== id);
+  sv(); renderHours();
+}
+
+function renderHours() {
+  const month = document.getElementById('hrFilterMonth')?.value;
+  const rows = month ? DATA.hours.filter(h => h.date.startsWith(month)) : DATA.hours;
+  const tbody = document.getElementById('hrTbl');
+
+  const totalHrs = rows.reduce((s, h) => s + (h.hours||0), 0);
+  const days = new Set(rows.map(h => h.date)).size;
+  document.getElementById('hrMthHours').textContent = totalHrs.toFixed(1) + 'h';
+  document.getElementById('hrMthDays').textContent = days;
+  document.getElementById('hrMthAvg').textContent = days ? (totalHrs/days).toFixed(1) + 'h' : '0h';
+
+  if(!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);">No entries</td></tr>';
+    return;
+  }
+  tbody.innerHTML = rows.map(h => `
+    <tr>
+      <td>${h.date}</td>
+      <td><span class="badge badge-blue">${h.type}</span></td>
+      <td>${h.hours}h</td>
+      <td>${h.notes||''}</td>
+      <td>${h.fileId && FILES[h.fileId] ? `<a href="${FILES[h.fileId].data}" target="_blank">📎</a>` : ''}</td>
+      <td><button class="btn btn-danger" onclick="deleteHour(${h.id})">✕</button></td>
+    </tr>
+  `).join('');
+}
+
+// ========== DASHBOARD ==========
+function renderDashboard() {
+  const ym = new Date().toISOString().slice(0, 7);
+  const monthOrders = DATA.orders.filter(o => o.date.startsWith(ym));
+  const monthGas = DATA.gas.filter(g => g.date.startsWith(ym));
+
+  const totalComm = monthOrders.reduce((s, o) => s + (o.comm||0), 0);
+  const totalCuts = monthOrders.reduce((s, o) => s + (o.cutFee||0), 0);
+  const totalGasAmt = monthGas.reduce((s, g) => s + (g.amt||0), 0);
+  const totalSheets = monthOrders.reduce((s, o) => s + (o.sheets||1), 0);
+  const totalCutsCount = monthOrders.reduce((s, o) => s + (o.cuts||0), 0);
+
+  document.getElementById('totalComm').textContent = '$' + totalComm.toFixed(2);
+  document.getElementById('totalCuts').textContent = '$' + totalCuts.toFixed(2);
+  document.getElementById('totalGas').textContent = '$' + totalGasAmt.toFixed(2);
+  document.getElementById('totalEarned').textContent = '$' + (totalComm + totalCuts + totalGasAmt).toFixed(2);
+
+  document.getElementById('dashOrders').textContent = monthOrders.length;
+  document.getElementById('dashSheets').textContent = totalSheets;
+  document.getElementById('dashCutsCount').textContent = totalCutsCount;
+  document.getElementById('dashGasTrips').textContent = monthGas.length;
+
+  // Recent orders
+  const recent = DATA.orders.slice(0, 5);
+  const rtbl = document.getElementById('recentOrdersTbl');
+  if(!recent.length) {
+    rtbl.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--muted);">No orders yet</td></tr>';
+    return;
+  }
+  rtbl.innerHTML = recent.map(o => `
+    <tr>
+      <td>${o.date}</td>
+      <td>${o.customer}</td>
+      <td>${o.material}</td>
+      <td>${o.sheets||1}</td>
+      <td>${o.cuts||0}</td>
+      <td>$${(o.comm||0).toFixed(2)}</td>
+      <td>$${(o.cutFee||0).toFixed(2)}</td>
+      <td class="earn-cell">$${(o.total||0).toFixed(2)}</td>
+    </tr>
+  `).join('');
+}
+
+function renderAll() {
+  renderDashboard();
+  renderOrders();
+  renderGas();
+  renderHours();
+}
+
+// ========== UTILITIES ==========
+function downloadFile(filename, mime, content) {
+  const a = document.createElement('a');
+  a.href = 'data:' + mime + ';charset=utf-8,' + encodeURIComponent(content);
+  a.download = filename;
+  a.click();
+}
 </script>
 </body>
 </html>
